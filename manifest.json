@@ -1,0 +1,19 @@
+{
+  "name": "StudyAbroad — เตรียมตัวไปเรียนภาษา 1 ปี",
+  "short_name": "StudyAbroad",
+  "description": "ไทม์ไลน์ก่อนไป เอกสาร งบทั้งปี เช็กลิสต์หลังถึง ตารางเรียน การ์ดฉุกเฉิน และกฎนักเรียนต่างชาติ ใช้ออฟไลน์ได้",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "th",
+  "icons": [
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable"},
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

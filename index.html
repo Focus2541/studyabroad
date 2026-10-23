@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>StudyAbroad</title>
+<meta name="description" content="เตรียมตัวไปเรียนภาษา 1 ปี: ไทม์ไลน์ เอกสาร งบประมาณ เช็กลิสต์หลังถึง ตารางเรียน การ์ดฉุกเฉิน ใช้งานออฟไลน์ได้">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --soft:#f4f6f9; --soft2:#e9edf3; --line:#e3e7ee; --line2:#cfd6e0;
+  --ink:#16202e; --ink2:#4a5768; --ink3:#8691a1;
+  --acc:#2c56c9; --acc-soft:#e7edfb; --acc-ink:#1f40a0;
+  --good:#16834a; --good-soft:#e5f5ec; --warn:#b86200; --warn-soft:#fff3e0; --bad:#cf3434; --bad-soft:#fdecec;
+  --f-body:'IBM Plex Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-num:'IBM Plex Mono',ui-monospace,monospace;
+  --r:14px; --rs:10px; --nav:64px; color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--f-body);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom,0px) + 28px);-webkit-tap-highlight-color:transparent}
+body.lock{overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:var(--acc)}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);width:100%;background:#fff;border:1px solid var(--line2);border-radius:var(--rs);padding:10px 12px;outline:none;min-height:44px}
+textarea{min-height:72px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2);font-weight:500}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+h1{font-size:21px;line-height:1.25}
+h2{font-size:15px;font-weight:700}
+.muted{color:var(--ink3);font-size:13px}
+.small{font-size:12.5px}
+.grow{flex:1;min-width:0}
+.row{display:flex;align-items:center;gap:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stack>*+*{margin-top:10px}
+
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px 16px;display:flex;align-items:center;gap:6px}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.3px;white-space:nowrap}.logo b{color:var(--acc)}
+#topSub{flex:1;min-width:0;text-align:right;font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:19px;flex-shrink:0}.ib:active{background:var(--soft)}
+.sosb{font-size:12px;font-weight:700;color:#fff;background:var(--bad);width:auto;padding:0 10px;height:32px;border-radius:99px}
+#menu{position:absolute;right:8px;top:calc(100% + 4px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(20,32,48,.16);padding:6px;min-width:240px}
+#menu button{display:flex;gap:10px;width:100%;text-align:left;padding:11px 12px;border-radius:9px;font-size:14.5px}#menu button:active{background:var(--soft)}
+#menu .ft{font-size:11.5px;color:var(--ink3);padding:8px 12px 4px;border-top:1px solid var(--line);margin-top:4px}
+
+main{max-width:720px;margin:0 auto;padding:16px}
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card.soft{background:var(--soft);border-color:transparent}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:12px;font-weight:600;font-size:14.5px;background:var(--soft);white-space:nowrap}
+.btn:active{filter:brightness(.95)}
+.btn.pri{background:var(--acc);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line2)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:13.5px;border-radius:10px}
+.btn.bad{background:var(--bad-soft);color:var(--bad)}
+.btn.full{width:100%}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;background:var(--soft2);color:var(--ink2);white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.acc{background:var(--acc-soft);color:var(--acc-ink)}
+.note{border-radius:12px;padding:10px 12px;font-size:13.5px;background:var(--warn-soft);color:#6b3a00;margin-bottom:12px}
+.note.info{background:var(--acc-soft);color:var(--acc-ink)}
+.note.bad{background:var(--bad-soft);color:#7a1d1d}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:3px;gap:3px;margin-bottom:12px}
+.seg button{flex:1;min-height:38px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink2)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* hero */
+.hero{background:linear-gradient(135deg,#2c56c9,#3f6fe6);color:#fff;border-radius:18px;padding:16px;margin-bottom:12px}
+.hero .big{font-family:var(--f-num);font-size:40px;font-weight:600;line-height:1.1}
+.hero .muted{color:rgba(255,255,255,.8)}
+.hero .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.hero .chips span{background:rgba(255,255,255,.18);border-radius:99px;padding:3px 10px;font-size:12.5px}
+
+/* list rows */
+.li{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:none}
+.ck{width:26px;height:26px;border-radius:8px;border:2px solid var(--line2);flex-shrink:0;display:grid;place-items:center;font-size:15px;color:#fff;margin-top:1px}
+.ck.on{background:var(--good);border-color:var(--good)}
+.li .t{font-weight:600;font-size:14.5px}
+.li.done .t{color:var(--ink3);text-decoration:line-through}
+.li .x{font-size:13px;color:var(--ink2)}
+.li .d{font-size:12px;color:var(--ink3);white-space:nowrap;text-align:right}
+.li .d.late{color:var(--bad);font-weight:600}
+.li .d.soon{color:var(--warn);font-weight:600}
+.lnk{font-size:12.5px;display:inline-block;margin-top:2px}
+.prog{height:8px;background:var(--soft2);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.prog.over i{background:var(--bad)}
+
+/* money */
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi>div{background:var(--soft);border-radius:12px;padding:10px 12px}
+.kpi b{display:block;font-family:var(--f-num);font-size:18px;font-weight:600}
+.kpi span{font-size:12px;color:var(--ink2)}
+.bars{display:flex;align-items:flex-end;gap:4px;height:120px;padding-top:8px}
+.bars div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
+.bars i{display:block;width:100%;background:var(--acc);border-radius:4px 4px 0 0;min-height:2px}
+.bars i.neg{background:var(--bad)}
+.bars i.act{background:#1d8f5a}
+.bars small{font-size:10px;color:var(--ink3);font-family:var(--f-num)}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;font-weight:600;color:var(--ink2);font-size:12px;padding:6px 4px;border-bottom:1px solid var(--line)}
+table.t td{padding:8px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t td.r,table.t th.r{text-align:right}
+.tx{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.tx:first-child{border-top:none}
+.tx .ic{width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center;flex-shrink:0}
+
+/* docs */
+.doc{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.doc:first-child{border-top:none}
+.thumb{width:52px;height:52px;border-radius:10px;background:var(--soft);display:grid;place-items:center;font-size:22px;flex-shrink:0;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.files .f{position:relative;width:70px;height:70px;border-radius:10px;background:var(--soft);overflow:hidden;display:grid;place-items:center;font-size:12px;text-align:center}
+.files .f img{width:100%;height:100%;object-fit:cover}
+.files .f .rm{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:99px;background:rgba(0,0,0,.6);color:#fff;font-size:12px}
+
+/* schedule */
+.day{margin-bottom:10px}
+.day h3{font-size:13px;color:var(--ink2);margin-bottom:4px}
+.cls{display:flex;gap:10px;align-items:center;background:var(--acc-soft);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.cls .tm{font-family:var(--f-num);font-size:12.5px;color:var(--acc-ink);white-space:nowrap}
+
+/* sos */
+.em{display:flex;gap:8px;flex-wrap:wrap}
+.em a{flex:1;min-width:120px;text-align:center;text-decoration:none;font-weight:700;font-size:18px;background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 8px}
+.tel{font-weight:600;text-decoration:none;font-family:var(--f-num);font-size:14px}
+.phr{padding:8px 0;border-top:1px solid var(--line)}.phr:first-child{border-top:none}
+.phr b{display:block;font-size:17px}
+
+/* nav */
+nav.bn{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bn button{flex:1;height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;color:var(--ink3);font-weight:600}
+nav.bn button .i{font-size:20px;line-height:1;filter:grayscale(1);opacity:.7}
+nav.bn button.on{color:var(--acc)}
+nav.bn button.on .i{filter:none;opacity:1}
+
+/* sheet */
+#scrim{position:fixed;inset:0;background:rgba(15,22,33,.42);z-index:90}
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:91;background:#fff;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto;padding:0 16px calc(16px + env(safe-area-inset-bottom,0px));max-width:720px;margin:0 auto;box-shadow:0 -8px 30px rgba(0,0,0,.15)}
+.sh{position:sticky;top:0;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:14px 0 10px;z-index:2}
+.sh b{font-size:16px}
+.xb{width:36px;height:36px;border-radius:99px;background:var(--soft);font-size:15px;flex-shrink:0}
+.sf{display:flex;gap:8px;position:sticky;bottom:0;background:#fff;padding-top:12px;margin-top:6px}
+.sf .btn{flex:1}
+#toast{position:fixed;left:50%;bottom:calc(var(--nav) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);background:#1d2633;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:120;max-width:calc(100vw - 32px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+#toast.bad{background:var(--bad)}
+.empty{text-align:center;color:var(--ink3);padding:22px 8px;font-size:14px}
+.cmp{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cmp table{min-width:520px}
+.src{font-size:12px;color:var(--ink3);margin-top:6px}
+.tog{display:flex;align-items:center;gap:10px;font-size:14px;padding:6px 0}
+.tog input{width:22px;height:22px;min-height:0;flex-shrink:0}
+.fab{position:fixed;right:16px;bottom:calc(var(--nav) + env(safe-area-inset-bottom,0px) + 14px);z-index:55;width:56px;height:56px;border-radius:18px;background:var(--acc);color:#fff;font-size:28px;box-shadow:0 8px 20px rgba(44,86,201,.35)}
+@media (min-width:600px){.kpi{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">Study<b>Abroad</b></div>
+  <div id="topSub"></div>
+  <button class="ib sosb" data-act="go" data-v="sos" aria-label="การ์ดฉุกเฉิน">SOS</button>
+  <div style="position:relative">
+    <button class="ib" data-act="menu" aria-label="เมนู">☰</button>
+    <div id="menu" hidden>
+      <button data-act="go" data-v="rules">📜 กฎที่นักเรียนต้องรู้</button>
+      <button data-act="go" data-v="compare">⚖️ เทียบ 3 ประเทศ</button>
+      <button data-act="go" data-v="sos">🆘 การ์ดฉุกเฉิน</button>
+      <button data-act="setup">⚙️ ตั้งค่าแผน (ประเทศ วันเดินทาง เงิน)</button>
+      <button data-act="ics">📅 ส่งออกปฏิทิน (.ics)</button>
+      <button data-act="backup">💾 สำรองข้อมูล (.json)</button>
+      <button data-act="restore">📂 กู้คืนจากไฟล์</button>
+      <button data-act="install" id="installBtn" hidden>📲 ติดตั้งเป็นแอป</button>
+      <div class="ft">ข้อมูลกฎ/ตัวเลข ณ <span id="asof"></span> · ข้อมูลของคุณอยู่ในเครื่องนี้เท่านั้น</div>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+<nav class="bn">
+  <button data-act="go" data-v="home"><span class="i">🏠</span>หน้าแรก</button>
+  <button data-act="go" data-v="plan"><span class="i">🗓️</span>ไทม์ไลน์</button>
+  <button data-act="go" data-v="money"><span class="i">💰</span>งบ</button>
+  <button data-act="go" data-v="docs"><span class="i">📄</span>เอกสาร</button>
+  <button data-act="go" data-v="life"><span class="i">🎒</span>ชีวิต</button>
+</nav>
+<div id="scrim" hidden data-act="closeSheet"></div>
+<div id="sheet" hidden role="dialog" aria-modal="true"></div>
+<div id="toast" hidden></div>
+<input type="file" id="fileRestore" accept=".json,application/json" hidden>
+<input type="file" id="fileDoc" accept="image/*,application/pdf" multiple hidden>
+
+<script src="countries.js"></script>
+<script>
+'use strict';
+/* ============ UTIL ============ */
+const $ = (s, r=document) => r.querySelector(s), $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const num = v => { const n = parseFloat(String(v ?? '').replace(/,/g, '')); return isFinite(n) ? n : 0; };
+const pad = n => String(n).padStart(2, '0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayIso = () => iso(new Date());
+const parseD = s => s ? new Date(s + 'T00:00') : null;
+const addDays = (s, n) => { const d = parseD(s); d.setDate(d.getDate() + n); return iso(d); };
+const addMonths = (s, n) => { const d = parseD(s); const day = d.getDate(); d.setDate(1); d.setMonth(d.getMonth() + n); d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth()+1, 0).getDate())); return iso(d); };
+const dDiff = (a, b) => Math.round((parseD(b) - parseD(a)) / 864e5);
+const TH_M = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const TH_D = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+const fd = s => { if (!s) return '—'; const d = parseD(s); return `${d.getDate()} ${TH_M[d.getMonth()]} ${String(d.getFullYear()+543).slice(2)}`; };
+const fm = s => { const d = parseD(s); return `${TH_M[d.getMonth()]} ${String(d.getFullYear()+543).slice(2)}`; };
+const n0 = n => Math.round(n).toLocaleString('th-TH');
+const thb = n => (n < 0 ? '−' : '') + '฿' + n0(Math.abs(n));
+const money = (n, c) => c === 'THB' ? thb(n) : (n < 0 ? '−' : '') + (CURR[c]?.s || c + ' ') + n0(Math.abs(n));
+
+/* ============ STATE ============ */
+const KEY = 'studyabroad.v1', RKEY = 'studyabroad.rates';
+const blankSos = () => ({name:'', addr:'', school:'', schoolPhone:'', insurer:'', policy:'', insPhone:'', blood:'', allergy:'', meds:'', contacts:[{name:'', phone:''},{name:'', phone:''}]});
+const blank = () => ({v:1, setup:false, country:'AU', visa:'student', city:'syd', depart:'', months:12, weeks:44, savings:0, income:0, flight:28000, pay:'upfront',
+  over:{}, tasks:{}, taskDate:{}, custom:[], arrival:{}, docs:[], tx:[], classes:[], events:[], sos:blankSos(), rateOver:{}, lastBackup:null, created:todayIso()});
+let db = blank();
+let rates = {rates:{}, at:null};
+const ui = {view:'home', planTab:'before', moneyTab:'plan', lifeTab:'week', txMonth:null};
+let S = null, deferredPrompt = null;
+
+function load(){
+  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.v) db = Object.assign(blank(), d); } catch {}
+  db.sos = Object.assign(blankSos(), db.sos || {});
+  try { const r = JSON.parse(localStorage.getItem(RKEY)); if (r && r.rates) rates = r; } catch {}
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { toast('บันทึกไม่สำเร็จ พื้นที่ในเครื่องเต็ม', 'bad'); } }
+
+/* ============ FILES (IndexedDB) ============ */
+const IDB = {
+  d:null,
+  open(){ if (this.d) return Promise.resolve(this.d);
+    return new Promise((res, rej) => { const r = indexedDB.open('studyabroad', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('files');
+      r.onsuccess = () => { this.d = r.result; res(this.d); }; r.onerror = () => rej(r.error); }); },
+  async tx(mode, fn){ const d = await this.open(); return new Promise((res, rej) => {
+    const t = d.transaction('files', mode), q = fn(t.objectStore('files')); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }); },
+  put(id, v){ return this.tx('readwrite', s => s.put(v, id)); },
+  get(id){ return this.tx('readonly', s => s.get(id)); },
+  del(id){ cache.delete(id); return this.tx('readwrite', s => s.delete(id)).catch(() => {}); }
+};
+const cache = new Map();
+async function fileData(id){ if (cache.has(id)) return cache.get(id); let v; try { v = await IDB.get(id); } catch {} if (v) cache.set(id, v); return v; }
+async function hydrate(root=document){
+  for (const img of $$('img[data-fid]', root)) { if (img.getAttribute('src')) continue; const v = await fileData(img.dataset.fid); if (v && v.data) img.src = v.data; }
+}
+function compress(file, max=1600, q=.78){
+  return new Promise((res, rej) => { const fr = new FileReader();
+    fr.onload = () => { const im = new Image();
+      im.onload = () => { const s = Math.min(1, max / Math.max(im.width, im.height)), w = Math.round(im.width*s), h = Math.round(im.height*s);
+        const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+        x.fillStyle = '#fff'; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h); res(c.toDataURL('image/jpeg', q)); };
+      im.onerror = rej; im.src = fr.result; };
+    fr.onerror = rej; fr.readAsDataURL(file); });
+}
+const readURL = file => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(file); });
+async function openFile(id){
+  const v = await fileData(id); if (!v) { toast('ไม่พบไฟล์', 'bad'); return; }
+  const b = await (await fetch(v.data)).blob(); const u = URL.createObjectURL(b);
+  const w = window.open(u, '_blank'); if (!w) { const a = document.createElement('a'); a.href = u; a.download = v.name || 'file'; a.click(); }
+  setTimeout(() => URL.revokeObjectURL(u), 60000);
+}
+
+/* ============ RATES ============ */
+const rate = c => !c || c === 'THB' ? 1 : (num(db.rateOver[c]) || (rates.rates || {})[c] || FALLBACK[c] || 0);
+const rateSrc = c => num(db.rateOver[c]) ? 'ตั้งเอง' : (rates.rates || {})[c] ? 'เรทสด ' + fd(rates.at.slice(0,10)) : 'เรทสำรองในแอป';
+async function fetchRates(){
+  if (!navigator.onLine) return false;
+  for (const u of ['https://open.er-api.com/v6/latest/THB', 'https://api.exchangerate-api.com/v4/latest/THB']) {
+    try { const r = await fetch(u, {cache:'no-store'}); if (!r.ok) continue; const d = await r.json(); if (!d.rates) continue;
+      const out = {}; for (const k in CURR) if (k !== 'THB' && d.rates[k]) out[k] = 1 / d.rates[k];
+      rates = {rates:out, at:new Date().toISOString()}; try { localStorage.setItem(RKEY, JSON.stringify(rates)); } catch {}
+      return true; } catch {}
+  }
+  return false;
+}
+
+/* ============ PLAN MODEL ============ */
+const C = () => COUNTRIES[db.country];
+const V = () => C().visas[db.visa] && C().visas[db.visa].ok ? C().visas[db.visa] : C().visas.student;
+const LC = () => C().c;
+const city = () => C().cities[db.city] || Object.values(C().cities)[0];
+const ov = () => (db.over[db.country] ||= {});
+const COSTS = [
+  ['tuitionW','ค่าเรียน / สัปดาห์','L'], ['enrol','ค่าแรกเข้า/อุปกรณ์','L'], ['ins','ประกันสุขภาพ / ปี','L'], ['fee','ค่าวีซ่า','L'],
+  ['rentW','ค่าที่พัก / สัปดาห์','L'], ['livM','ค่ากิน เดินทาง โทรศัพท์ / เดือน','L'], ['setupL','ตั้งตัวเดือนแรก (มัดจำห้อง ของใช้)','L']
+];
+function defCost(k){
+  const v = V(), c = city();
+  return {tuitionW:v.tuitionW, enrol:v.enrol, ins:v.ins, fee:v.fee, rentW:c.rentW, livM:c.livM, setupL:Math.round(c.rentW*4 + 400)}[k];
+}
+const cost = k => ov()[k] !== undefined && ov()[k] !== '' ? num(ov()[k]) : defCost(k);
+const months = () => Math.max(1, Math.min(36, parseInt(db.months) || 12));
+const studyWeeks = () => { const v = V(); let w = Math.max(0, parseInt(db.weeks) || 0); if (v.studyMax) w = Math.min(w, v.studyMax); return w; };
+const studyMonths = () => Math.max(1, Math.min(months(), Math.ceil(studyWeeks() / 4.345)));
+const departRef = () => db.depart || iso(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1));
+const endDate = () => addDays(addMonths(departRef(), months()), -1);
+function monthIdx(dateIso){
+  const dep = departRef(); if (dateIso < dep) return 0;
+  const a = parseD(dep), b = parseD(dateIso);
+  let m = (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth()); if (b.getDate() < a.getDate()) m--;
+  return m + 1;
+}
+function monthLabel(m){ return m === 0 ? 'ก่อนไป' : `ด.${m}`; }
+function monthRange(m){ if (m === 0) return 'ก่อนวันเดินทาง'; const s = addMonths(departRef(), m - 1); return `${fd(s)} – ${fd(addDays(addMonths(departRef(), m), -1))}`; }
+
+/* planned net spend per month, in THB, with category detail */
+function planMonths(){
+  const r = rate(LC()), M = months(), sm = studyMonths(), tuition = cost('tuitionW') * studyWeeks();
+  const out = [];
+  for (let m = 0; m <= M; m++) {
+    const it = {};
+    if (m === 0) {
+      it.visa = cost('fee') * r; it.ins = cost('ins') * M / 12 * r; it.tuition = cost('enrol') * r + (db.pay === 'upfront' ? tuition * r : 0); it.flight = num(db.flight);
+    } else {
+      it.rent = cost('rentW') * 52 / 12 * r; it.living = cost('livM') * r;
+      if (m === 1) it.setup = cost('setupL') * r;
+      if (db.pay === 'monthly' && m <= sm) it.tuition = tuition / sm * r;
+      if (m >= 2 && num(db.income) > 0 && V().workH > 0) it.income = -num(db.income) * r;
+    }
+    for (const e of db.events) if (num(e.cost) > 0 && e.date) { const em = monthIdx(e.date); if (em === m) it.travel = (it.travel || 0) + num(e.cost) * rate(e.curr || LC()); }
+    out.push({m, items:it, total:Object.values(it).reduce((s, x) => s + x, 0)});
+  }
+  return out;
+}
+const txThb = t => num(t.amount) * (t.curr === 'THB' ? 1 : num(t.rate) || rate(t.curr));
+function actualMonths(){
+  const a = {}; for (const t of db.tx) { const m = monthIdx(t.date); a[m] = (a[m] || 0) + (t.type === 'inc' ? -1 : 1) * txThb(t); } return a;
+}
+function runway(){
+  const plan = planMonths(), act = actualMonths(), cm = db.depart ? monthIdx(todayIso()) : 0, rows = [];
+  let bal = num(db.savings), lastOk = -1, firstNeg = null;
+  for (const p of plan) {
+    const a = act[p.m] || 0, used = p.m < cm ? a : p.m === cm ? Math.max(a, p.total) : p.total;
+    bal -= used; rows.push({m:p.m, plan:p.total, act:a, used, bal, past:p.m < cm, cur:p.m === cm});
+    if (bal >= 0 && firstNeg === null) lastOk = p.m; else if (bal < 0 && firstNeg === null) firstNeg = p.m;
+  }
+  return {rows, lastOk, firstNeg, end:bal, cm, total:plan.reduce((s, p) => s + p.total, 0)};
+}
+const CATS = {tuition:['🎓','ค่าเรียน'], rent:['🏠','ที่พัก'], food:['🍜','อาหาร'], transport:['🚌','เดินทาง'], phone:['📱','โทรศัพท์/เน็ต'], ins:['🩺','ประกัน/สุขภาพ'], visa:['🛂','วีซ่า/เอกสาร'], flight:['✈️','ตั๋วเครื่องบิน'], travel:['🗺️','เที่ยว'], setup:['🧺','ของใช้/ตั้งตัว'], other:['📦','อื่นๆ'], income:['💵','รายได้']};
+const PLAN_CAT = {tuition:'tuition', visa:'visa', ins:'ins', flight:'flight', rent:'rent', living:'food', setup:'setup', travel:'travel', income:'income'};
+
+/* ============ TIMELINE ============ */
+function allTasks(){
+  const v = V(); const list = [...COMMON_TASKS, ...(v.tasks || []), ...db.custom.map(c => ({...c, custom:true}))];
+  return list.map(t => { const date = db.taskDate[t.id] || (t.date ? t.date : (db.depart ? addDays(db.depart, t.d) : '')); return {...t, date, done:!!db.tasks[t.id]}; })
+    .sort((a, b) => (a.date || '9') < (b.date || '9') ? -1 : (a.date || '9') > (b.date || '9') ? 1 : (a.d || 0) - (b.d || 0));
+}
+const arrivalList = () => C().arrival.filter(a => !a.who || a.who === db.visa);
+function docAlerts(){
+  const out = [], t = todayIso();
+  for (const d of db.docs) { if (!d.expiry) continue; const left = dDiff(t, d.expiry), warn = d.type === 'passport' ? 210 : 60;
+    if (left <= warn) out.push({d, left}); }
+  return out.sort((a, b) => a.left - b.left);
+}
+const DOC_T = {passport:['🛂','พาสปอร์ต'], visa:['📑','วีซ่า/Study permit'], school:['🏫','เอกสารโรงเรียน (CoE/Offer/LOA)'], ins:['🩺','ประกัน'], edu:['🎓','วุฒิ/ใบแสดงผลการเรียน'], fin:['🏦','หลักฐานการเงิน'], med:['💊','ใบรับรองแพทย์/ยา'], other:['📎','อื่นๆ']};
+
+/* ============ RENDER ============ */
+function go(v){ ui.view = v; $('#menu').hidden = true; render(); window.scrollTo(0, 0); }
+function render(){
+  const c = C();
+  $('#topSub').textContent = db.setup ? `${c.f} ${city().n} · ${V() === c.visas.whv ? 'Working Holiday' : 'นักเรียน'}` : '';
+  $('#asof').textContent = fd(DATA_AS_OF);
+  $$('nav.bn button').forEach(b => b.classList.toggle('on', b.dataset.v === ui.view));
+  const f = {home:vHome, plan:vPlan, money:vMoney, docs:vDocs, life:vLife, rules:vRules, compare:vCompare, sos:vSos}[ui.view] || vHome;
+  $('#app').innerHTML = f(); hydrate($('#app'));
+}
+
+function vHome(){
+  if (!db.setup) return `<div class="hero"><div style="font-size:30px">🎓✈️</div><h1 style="margin:6px 0">เตรียมไปเรียนภาษา 1 ปี</h1>
+    <div class="muted">ตั้งค่าแผนก่อน: ประเทศ เมือง วันเดินทาง และเงินที่มี แล้วแอปจะสร้างไทม์ไลน์ งบ และเช็กลิสต์ให้</div></div>
+    <button class="btn pri full" data-act="setup">เริ่มตั้งค่าแผน</button>
+    <button class="btn ghost full" style="margin-top:8px" data-act="go" data-v="compare">ยังไม่ได้เลือกประเทศ? เทียบ 3 ประเทศก่อน</button>
+    <div class="src" style="text-align:center;margin-top:14px">ข้อมูลกฎและตัวเลข ณ ${fd(DATA_AS_OF)} ตรวจซ้ำในเว็บทางการก่อนยื่นจริงทุกครั้ง</div>`;
+  const c = C(), v = V(), t = todayIso();
+  let big, lbl;
+  if (!db.depart) { big = '—'; lbl = 'ยังไม่ได้ใส่วันเดินทาง'; }
+  else if (t < db.depart) { big = dDiff(t, db.depart); lbl = `วันก่อนเดินทาง · ${fd(db.depart)}`; }
+  else if (t <= endDate()) { big = dDiff(t, endDate()); lbl = `วันที่เหลือ · อยู่มาแล้ว ${dDiff(db.depart, t)} วัน`; }
+  else { big = '🎉'; lbl = 'จบแผนแล้ว'; }
+  const tasks = allTasks().filter(x => !x.done), next = tasks.slice(0, 4), late = tasks.filter(x => x.date && x.date < t).length;
+  const rw = runway(), alerts = docAlerts();
+  let h = `<div class="hero"><div class="muted">${c.f} ${esc(city().n)}, ${esc(c.n)} · ${esc(v.n)}</div>
+    <div class="big">${big}</div><div>${lbl}</div>
+    <div class="chips"><span>${months()} เดือน</span><span>เรียน ${studyWeeks()} สัปดาห์</span>${db.depart ? `<span>กลับ ${fd(endDate())}</span>` : ''}</div></div>`;
+  if (v.status) h += `<div class="note">${esc(v.status)}</div>`;
+  if (!db.depart) h += `<div class="note info">ใส่วันเดินทาง (แม้จะเป็นวันคร่าวๆ) เพื่อให้ไทม์ไลน์มีวันที่ <button class="btn sm pri" style="margin-left:6px" data-act="setup">ใส่วันที่</button></div>`;
+  const lb = db.lastBackup ? dDiff(db.lastBackup.slice(0,10), t) : null, hasData = db.docs.length || db.tx.length || Object.keys(db.tasks).length;
+  if (hasData && (lb === null || lb > 14)) h += `<div class="note">💾 ${lb === null ? 'ยังไม่เคยสำรองข้อมูล' : `สำรองข้อมูลครั้งล่าสุด ${lb} วันก่อน`} — ถ้าล้างเบราว์เซอร์หรือเปลี่ยนเครื่อง ข้อมูลจะหาย <button class="btn sm pri" style="margin-left:6px" data-act="backup">สำรองเลย</button></div>`;
+  for (const a of alerts) h += `<div class="note ${a.left < 0 ? 'bad' : ''}">${DOC_T[a.d.type]?.[0] || '📎'} <b>${esc(a.d.name || DOC_T[a.d.type]?.[1])}</b> ${a.left < 0 ? `หมดอายุแล้ว ${-a.left} วัน` : `จะหมดอายุใน ${a.left} วัน (${fd(a.d.expiry)})`}</div>`;
+  // runway
+  const lastLbl = rw.firstNeg === null ? `พอทั้ง ${months()} เดือน เหลือ ${thb(rw.end)}` : rw.firstNeg === 0 ? 'เงินไม่พอตั้งแต่ก่อนเดินทาง'
+    : rw.firstNeg === 1 ? 'เงินหมดภายในเดือนแรกหลังไปถึง' : `เงินพอถึงเดือนที่ ${rw.firstNeg - 1} (${fm(addMonths(departRef(), rw.firstNeg - 2))})`;
+  h += `<div class="card" data-act="go" data-v="money" style="cursor:pointer"><div class="ch"><h2>💰 เงินจะพอถึงเมื่อไร</h2><span class="pill ${rw.firstNeg === null ? 'good' : 'bad'}">${rw.firstNeg === null ? 'พอ' : 'ไม่พอ'}</span></div>
+    <div style="font-size:17px;font-weight:600">${lastLbl}</div>
+    <div class="muted">เงินที่มี ${thb(num(db.savings))} · แผนทั้งหมด ${thb(rw.total)}</div></div>`;
+  // next tasks
+  h += `<div class="card"><div class="ch"><h2>🗓️ สิ่งที่ต้องทำต่อไป</h2>${late ? `<span class="pill bad">เลยกำหนด ${late}</span>` : ''}</div>`;
+  h += next.length ? next.map(taskRow).join('') : `<div class="empty">ทำครบทุกข้อแล้ว 👏</div>`;
+  h += `<button class="btn sm ghost full" style="margin-top:8px" data-act="go" data-v="plan">ดูไทม์ไลน์ทั้งหมด</button></div>`;
+  // today class
+  if (db.classes.length) { const wd = new Date().getDay(), tc = db.classes.filter(x => +x.day === wd).sort((a, b) => a.start < b.start ? -1 : 1);
+    h += `<div class="card"><div class="ch"><h2>📚 เรียนวันนี้</h2><span class="muted">${TH_D[wd]}</span></div>${tc.length ? tc.map(clsRow).join('') : '<div class="muted">วันนี้ไม่มีเรียน</div>'}</div>`; }
+  h += `<div class="g2"><button class="btn ghost" data-act="go" data-v="rules">📜 กฎนักเรียน</button><button class="btn ghost" data-act="go" data-v="sos">🆘 การ์ดฉุกเฉิน</button></div>`;
+  return h;
+}
+
+function taskRow(t){
+  const today = todayIso(), late = !t.done && t.date && t.date < today, soon = !t.done && t.date && !late && dDiff(today, t.date) <= 14;
+  return `<div class="li ${t.done ? 'done' : ''}"><button class="ck ${t.done ? 'on' : ''}" data-act="tTask" data-id="${t.id}" aria-label="ทำแล้ว">${t.done ? '✓' : ''}</button>
+    <div class="grow" data-act="editTask" data-id="${t.id}"><div class="t">${esc(t.t)}</div>${t.x ? `<div class="x">${esc(t.x)}</div>` : ''}${t.u ? `<a class="lnk" href="${esc(t.u)}" target="_blank" rel="noopener">เว็บทางการ ↗</a>` : ''}</div>
+    <div class="d ${late ? 'late' : soon ? 'soon' : ''}">${t.date ? fd(t.date) : t.d ? `${Math.round(-t.d/30)} ด. ก่อน` : ''}${late ? '<br>เลยกำหนด' : ''}</div></div>`;
+}
+
+function vPlan(){
+  const before = ui.planTab === 'before';
+  let h = `<div class="hd"><div><h1>ไทม์ไลน์</h1><div class="muted">${db.depart ? `นับจากวันเดินทาง ${fd(db.depart)}` : 'ใส่วันเดินทางเพื่อให้มีวันที่'}</div></div>${before ? `<button class="btn sm pri" data-act="addTask">+ เพิ่ม</button>` : ''}</div>
+    <div class="seg"><button class="${before ? 'on' : ''}" data-act="planTab" data-v="before">ก่อนไป</button><button class="${!before ? 'on' : ''}" data-act="planTab" data-v="after">หลังไปถึง</button></div>`;
+  if (before) {
+    const ts = allTasks(), done = ts.filter(t => t.done).length;
+    h += `<div class="card soft"><div class="row"><div class="grow"><b>${done}/${ts.length}</b> <span class="muted">ข้อเสร็จแล้ว</span></div></div><div class="prog" style="margin-top:6px"><i style="width:${ts.length ? done/ts.length*100 : 0}%"></i></div></div>`;
+    if (V().status) h += `<div class="note">${esc(V().status)}</div>`;
+    const groups = {}; for (const t of ts) { const k = t.date ? t.date.slice(0, 7) : 'nodate'; (groups[k] ||= []).push(t); }
+    for (const k in groups) h += `<div class="card"><div class="ch"><h2>${k === 'nodate' ? 'ยังไม่มีวันที่' : fm(k + '-01')}</h2></div>${groups[k].map(taskRow).join('')}</div>`;
+    h += `<div class="src">แตะที่ข้อความเพื่อเปลี่ยนวันที่ทำ · วันที่ในแอปเป็นค่าแนะนำ ระยะเวลาพิจารณาวีซ่าจริงดูในเว็บทางการ</div>`;
+  } else {
+    const list = arrivalList(), done = list.filter(a => db.arrival[a.id]).length;
+    h += `<div class="card soft"><b>${done}/${list.length}</b> <span class="muted">ข้อ · กฎของ${esc(C().n)}</span><div class="prog" style="margin-top:6px"><i style="width:${list.length ? done/list.length*100 : 0}%"></i></div></div><div class="card">`;
+    h += list.map(a => { const on = !!db.arrival[a.id]; return `<div class="li ${on ? 'done' : ''}"><button class="ck ${on ? 'on' : ''}" data-act="tArr" data-id="${a.id}">${on ? '✓' : ''}</button>
+      <div class="grow"><div class="t">${esc(a.t)}</div><div class="x">${esc(a.x)}</div>${a.u ? `<a class="lnk" href="${esc(a.u)}" target="_blank" rel="noopener">เว็บทางการ ↗</a>` : ''}</div></div>`; }).join('');
+    h += `</div>`;
+  }
+  return h;
+}
+
+function vMoney(){
+  const tab = ui.moneyTab, lc = LC(), r = rate(lc);
+  let h = `<div class="hd"><div><h1>งบประมาณ</h1><div class="muted">1 ${lc} = ${r.toFixed(2)} บาท · ${rateSrc(lc)}</div></div><button class="btn sm ghost" data-act="rates">เรทเงิน</button></div>
+    <div class="seg"><button class="${tab === 'plan' ? 'on' : ''}" data-act="moneyTab" data-v="plan">แผน & เงินพอไหม</button><button class="${tab === 'tx' ? 'on' : ''}" data-act="moneyTab" data-v="tx">บันทึกจริง</button><button class="${tab === 'cmp' ? 'on' : ''}" data-act="moneyTab" data-v="cmp">งบ vs จริง</button></div>`;
+  if (tab === 'plan') {
+    const rw = runway(), max = Math.max(1, ...rw.rows.map(x => Math.abs(x.bal)), num(db.savings));
+    h += `<div class="kpi"><div><span>เงินที่มีทั้งหมด</span><b>${thb(num(db.savings))}</b></div><div><span>แผนใช้ทั้งหมด</span><b>${thb(rw.total)}</b></div>
+      <div><span>เหลือตอนจบ</span><b style="color:${rw.end < 0 ? 'var(--bad)' : 'var(--good)'}">${thb(rw.end)}</b></div><div><span>ต่อเดือน (ที่พัก+กินอยู่)</span><b>${thb((cost('rentW')*52/12 + cost('livM')) * r)}</b></div></div>`;
+    h += `<div class="card"><div class="ch"><h2>เงินคงเหลือแต่ละเดือน</h2><span class="muted small">🟦 แผน 🟩 จริง 🟥 ติดลบ</span></div><div class="bars">` +
+      rw.rows.map(x => `<div title="${monthRange(x.m)}"><i class="${x.bal < 0 ? 'neg' : x.past ? 'act' : ''}" style="height:${Math.min(100, Math.abs(x.bal)/max*100)}%"></i><small>${x.m === 0 ? 'ก่อน' : x.m}</small></div>`).join('') + `</div>`;
+    h += rw.firstNeg === null ? `<div class="note info" style="margin:10px 0 0">เงินพอทั้ง ${months()} เดือน ถ้าใช้ตามแผน</div>` : `<div class="note bad" style="margin:10px 0 0">เงินจะติดลบใน${monthLabel(rw.firstNeg) === 'ก่อนไป' ? 'ช่วงก่อนไป' : `เดือนที่ ${rw.firstNeg}`} (${monthRange(rw.firstNeg)}) ขาดอีกประมาณ ${thb(-rw.end)}</div>`;
+    h += `</div><div class="card"><div class="ch"><h2>ตัวเลขที่ใช้คำนวณ (${lc})</h2><button class="btn sm pri" data-act="editCosts">แก้ไข</button></div><table class="t">` +
+      COSTS.map(([k, n]) => `<tr><td>${n}${ov()[k] !== undefined && ov()[k] !== '' ? ' <span class="pill acc">แก้แล้ว</span>' : ''}</td><td class="r num">${money(cost(k), lc)}</td></tr>`).join('') +
+      `<tr><td>ตั๋วเครื่องบิน</td><td class="r num">${thb(num(db.flight))}</td></tr><tr><td>รายได้งานพิเศษ / เดือน</td><td class="r num">${V().workH ? money(num(db.income), lc) : 'ทำงานไม่ได้'}</td></tr>
+      <tr><td>ค่าเรียน ${studyWeeks()} สัปดาห์ (${db.pay === 'upfront' ? 'จ่ายก่อนไป' : 'แบ่งจ่ายรายเดือน'})</td><td class="r num">${money(cost('tuitionW') * studyWeeks(), lc)}</td></tr></table>
+      <div class="src">ค่าที่พัก/กินอยู่เป็นค่าประมาณของเมืองนั้น (ห้องแชร์) แก้ให้ตรงกับใบเสนอราคาโรงเรียนและที่พักจริงได้ · ${esc(V().feeNote || '')}</div>
+      <div class="src">เงินที่ต้องแสดงตอนยื่นวีซ่า: <b>${money(V().funds, lc)}</b> — ${esc(V().fundsNote || '')}</div></div>`;
+    h += `<div class="card"><div class="ch"><h2>แผนรายเดือน</h2></div><table class="t"><tr><th>เดือน</th><th class="r">แผน</th><th class="r">จริง</th><th class="r">คงเหลือ</th></tr>` +
+      rw.rows.map(x => `<tr><td>${monthLabel(x.m)}${x.cur ? ' <span class="pill acc">ตอนนี้</span>' : ''}<div class="muted small">${x.m ? fm(addMonths(departRef(), x.m - 1)) : ''}</div></td><td class="r num">${thb(x.plan)}</td><td class="r num">${x.act ? thb(x.act) : '—'}</td><td class="r num" style="color:${x.bal < 0 ? 'var(--bad)' : 'inherit'}">${thb(x.bal)}</td></tr>`).join('') + `</table></div>`;
+  } else if (tab === 'tx') {
+    const ms = [...new Set(db.tx.map(t => monthIdx(t.date)))].sort((a, b) => b - a);
+    if (ui.txMonth === null || !ms.includes(ui.txMonth)) ui.txMonth = ms[0] ?? null;
+    h += `<button class="btn pri full" data-act="addTx" style="margin-bottom:12px">+ บันทึกรายจ่าย / รายรับ</button>`;
+    if (!db.tx.length) h += `<div class="empty">ยังไม่มีรายการ<br>บันทึกค่าใช้จ่ายจริง แล้วแอปจะเทียบกับแผนและคำนวณว่าเงินพอถึงเดือนไหนใหม่</div>`;
+    else {
+      h += `<div class="seg" style="overflow-x:auto">${ms.map(m => `<button class="${m === ui.txMonth ? 'on' : ''}" data-act="txMonth" data-v="${m}" style="flex:0 0 auto;padding:0 12px">${monthLabel(m)}</button>`).join('')}</div>`;
+      const list = db.tx.filter(t => monthIdx(t.date) === ui.txMonth).sort((a, b) => a.date < b.date ? 1 : -1);
+      const exp = list.filter(t => t.type !== 'inc').reduce((s, t) => s + txThb(t), 0), inc = list.filter(t => t.type === 'inc').reduce((s, t) => s + txThb(t), 0);
+      h += `<div class="kpi"><div><span>จ่าย ${monthLabel(ui.txMonth)}</span><b>${thb(exp)}</b></div><div><span>รับ</span><b style="color:var(--good)">${thb(inc)}</b></div></div><div class="card">` +
+        list.map(t => `<div class="tx" data-act="editTx" data-id="${t.id}"><div class="ic">${CATS[t.cat]?.[0] || '📦'}</div><div class="grow"><div style="font-weight:600">${esc(t.note || CATS[t.cat]?.[1] || '')}</div><div class="muted small">${fd(t.date)} · ${CATS[t.cat]?.[1] || ''}</div></div>
+          <div style="text-align:right"><div class="num" style="font-weight:600;color:${t.type === 'inc' ? 'var(--good)' : 'inherit'}">${t.type === 'inc' ? '+' : ''}${money(num(t.amount), t.curr)}</div>${t.curr !== 'THB' ? `<div class="muted small num">${thb(txThb(t))}</div>` : ''}</div></div>`).join('') + `</div>`;
+    }
+  } else {
+    const plan = planMonths(), cm = db.depart ? monthIdx(todayIso()) : 0, pc = {}, ac = {};
+    for (const p of plan) if (p.m <= Math.max(cm, 0)) for (const k in p.items) { const c = PLAN_CAT[k] || 'other'; pc[c] = (pc[c] || 0) + Math.abs(p.items[k]); }
+    for (const t of db.tx) if (monthIdx(t.date) <= cm) { const c = t.type === 'inc' ? 'income' : (['food','transport','phone','other'].includes(t.cat) ? 'food' : t.cat); ac[c] = (ac[c] || 0) + txThb(t); }
+    const keys = [...new Set([...Object.keys(pc), ...Object.keys(ac)])];
+    h += `<div class="note info">เทียบตั้งแต่ก่อนไปจนถึงเดือนปัจจุบัน (${monthLabel(cm)}) · "กินอยู่" รวมอาหาร เดินทาง โทรศัพท์ และอื่นๆ</div><div class="card"><table class="t"><tr><th>หมวด</th><th class="r">งบ</th><th class="r">จริง</th><th style="width:30%"></th></tr>` +
+      keys.map(k => { const p = pc[k] || 0, a = ac[k] || 0, pct = p ? a / p * 100 : (a ? 100 : 0), nm = k === 'food' ? 'กินอยู่' : CATS[k]?.[1] || k;
+        return `<tr><td>${CATS[k]?.[0] || ''} ${nm}</td><td class="r num">${thb(p)}</td><td class="r num">${thb(a)}</td><td><div class="prog ${pct > 100 && k !== 'income' ? 'over' : ''}"><i style="width:${Math.min(100, pct)}%"></i></div><div class="muted small" style="text-align:right">${Math.round(pct)}%</div></td></tr>`; }).join('') + `</table></div>`;
+  }
+  return h;
+}
+
+function vDocs(){
+  let h = `<div class="hd"><div><h1>เอกสาร</h1><div class="muted">เก็บในเครื่องนี้ · เปิดได้แม้ไม่มีเน็ต</div></div><button class="btn sm pri" data-act="addDoc">+ เพิ่ม</button></div>`;
+  const al = docAlerts(); for (const a of al) h += `<div class="note ${a.left < 0 ? 'bad' : ''}">${esc(a.d.name || DOC_T[a.d.type][1])} ${a.left < 0 ? 'หมดอายุแล้ว' : `หมดอายุใน ${a.left} วัน`}</div>`;
+  if (!db.docs.length) return h + `<div class="empty">ยังไม่มีเอกสาร<br>ถ่ายรูปหรือแนบ PDF พาสปอร์ต วีซ่า จดหมายจากโรงเรียน ประกัน และวุฒิการศึกษา แล้วใส่วันหมดอายุเพื่อให้แอปเตือน</div>
+    <div class="card soft small">ควรมีติดตัว: ${Object.values(DOC_T).slice(0, 6).map(x => x[0] + ' ' + x[1]).join(' · ')}</div>`;
+  const by = {}; for (const d of db.docs) (by[d.type] ||= []).push(d);
+  for (const k of Object.keys(DOC_T)) if (by[k]) h += `<div class="card"><div class="ch"><h2>${DOC_T[k][0]} ${DOC_T[k][1]}</h2></div>` + by[k].map(d => {
+    const left = d.expiry ? dDiff(todayIso(), d.expiry) : null, f0 = d.files[0];
+    return `<div class="doc" data-act="editDoc" data-id="${d.id}"><div class="thumb">${f0 && f0.kind === 'img' ? `<img data-fid="${f0.id}" alt="">` : f0 ? '📄' : DOC_T[d.type][0]}</div>
+      <div class="grow"><div style="font-weight:600">${esc(d.name || DOC_T[d.type][1])}</div><div class="muted small">${d.files.length} ไฟล์${d.expiry ? ` · หมดอายุ ${fd(d.expiry)}` : ''}</div></div>
+      ${left !== null ? `<span class="pill ${left < 0 ? 'bad' : left < 60 ? 'warn' : 'good'}">${left < 0 ? 'หมดแล้ว' : left + ' วัน'}</span>` : ''}</div>`; }).join('') + `</div>`;
+  return h + `<div class="src">ไฟล์เก็บในเบราว์เซอร์ของเครื่องนี้ สำรองข้อมูลจะรวมไฟล์ไปด้วย</div>`;
+}
+
+const clsRow = c => `<div class="cls" data-act="editCls" data-id="${c.id}"><span class="tm">${esc(c.start)}–${esc(c.end)}</span><div class="grow"><b>${esc(c.name)}</b>${c.room ? `<div class="muted small">${esc(c.room)}</div>` : ''}</div></div>`;
+const EV_T = {holiday:['🏖️','วันหยุด/ปิดเทอม'], trip:['🗺️','ทริปเที่ยว'], exam:['📝','สอบ'], other:['📌','อื่นๆ']};
+function vLife(){
+  const tab = ui.lifeTab;
+  let h = `<div class="hd"><div><h1>ชีวิตประจำวัน</h1><div class="muted">ตารางเรียน วันหยุด และทริประหว่างเรียน</div></div><button class="btn sm pri" data-act="${tab === 'week' ? 'addCls' : 'addEv'}">+ เพิ่ม</button></div>
+    <div class="seg"><button class="${tab === 'week' ? 'on' : ''}" data-act="lifeTab" data-v="week">ตารางเรียน</button><button class="${tab === 'ev' ? 'on' : ''}" data-act="lifeTab" data-v="ev">วันหยุด & ทริป</button></div>`;
+  if (tab === 'week') {
+    if (!db.classes.length) return h + `<div class="empty">ยังไม่มีตารางเรียน<br>เพิ่มคาบเรียนแต่ละวัน แล้วหน้าแรกจะแสดงว่าวันนี้เรียนอะไร</div>`;
+    const wd = new Date().getDay();
+    for (const d of [1,2,3,4,5,6,0]) { const cs = db.classes.filter(c => +c.day === d).sort((a, b) => a.start < b.start ? -1 : 1); if (!cs.length) continue;
+      h += `<div class="day"><h3>${TH_D[d]}${d === wd ? ' <span class="pill acc">วันนี้</span>' : ''}</h3>${cs.map(clsRow).join('')}</div>`; }
+    const hrs = db.classes.reduce((s, c) => s + Math.max(0, (toMin(c.end) - toMin(c.start)) / 60), 0);
+    h += `<div class="card soft small">เรียนรวม <b>${hrs.toFixed(1)}</b> ชม./สัปดาห์${V().workH ? ` · สิทธิ์ทำงานประมาณ ${V().workH} ชม./สัปดาห์ช่วงเปิดเรียน` : ''}</div>`;
+  } else {
+    if (!db.events.length) return h + `<div class="empty">ยังไม่มีรายการ<br>ใส่วันปิดเทอมของโรงเรียน วันหยุดราชการ และทริปที่อยากไป ค่าใช้จ่ายทริปจะถูกรวมเข้าแผนงบในเดือนนั้น</div>`;
+    const t = todayIso(), evs = [...db.events].sort((a, b) => a.date < b.date ? -1 : 1);
+    h += `<div class="card">` + evs.map(e => `<div class="tx" data-act="editEv" data-id="${e.id}" style="${(e.end || e.date) < t ? 'opacity:.55' : ''}"><div class="ic">${EV_T[e.type]?.[0] || '📌'}</div>
+      <div class="grow"><div style="font-weight:600">${esc(e.title)}</div><div class="muted small">${fd(e.date)}${e.end && e.end !== e.date ? ' – ' + fd(e.end) : ''} · ${EV_T[e.type]?.[1] || ''}</div></div>
+      ${num(e.cost) ? `<div class="num" style="font-weight:600">${money(num(e.cost), e.curr || LC())}</div>` : ''}</div>`).join('') + `</div>`;
+  }
+  return h;
+}
+const toMin = s => { const [a, b] = String(s || '0:0').split(':'); return (+a || 0) * 60 + (+b || 0); };
+
+function vRules(){
+  const c = C(), vk = V() === c.visas.whv ? 'whv' : 'student', v = V();
+  let h = `<div class="hd"><div><h1>กฎที่ต้องรู้ · ${c.f} ${esc(c.n)}</h1><div class="muted">${esc(v.n)} · ข้อมูล ณ ${fd(DATA_AS_OF)}</div></div></div>
+    <div class="note">กฎเปลี่ยนบ่อย ใช้ข้อมูลนี้เป็นจุดเริ่มต้น แล้วตรวจในลิงก์ทางการและเงื่อนไขที่ระบุในวีซ่าของตัวเองเสมอ</div>`;
+  if (v.status) h += `<div class="note bad">${esc(v.status)}</div>`;
+  h += `<div class="card"><div class="ch"><h2>สรุป</h2></div><table class="t"><tr><td>ทำงานพิเศษ</td><td>${esc(v.work)}</td></tr><tr><td>เงินที่ต้องแสดง</td><td>${money(v.funds, c.c)}<div class="muted small">${esc(v.fundsNote || '')}</div></td></tr><tr><td>ค่าวีซ่า</td><td>${money(v.fee, c.c)}<div class="muted small">${esc(v.feeNote || '')}</div></td></tr>${v.age ? `<tr><td>อายุ</td><td>${esc(v.age)}</td></tr>` : ''}</table></div>`;
+  for (const r of c.rules) { const p = r.p[vk] || r.p.all; if (!p) continue;
+    h += `<div class="card"><h2 style="margin-bottom:4px">${esc(r.h)}</h2><div>${esc(p)}</div>${r.p.u || r.u ? `<a class="lnk" href="${esc(r.p.u || r.u)}" target="_blank" rel="noopener">เว็บทางการ ↗</a>` : ''}</div>`; }
+  h += `<div class="card"><div class="ch"><h2>🔗 เว็บทางการ</h2></div>${c.links.map(([n, u]) => `<div class="li"><div class="grow"><a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a></div></div>`).join('')}</div>`;
+  return h;
+}
+
+function estTotal(code){
+  const c = COUNTRIES[code], v = c.visas.student, ci = Object.values(c.cities)[0], r = rate(c.c), M = 12, w = 44;
+  const L = v.tuitionW * w + v.enrol + v.ins + v.fee + ci.rentW * 52 + ci.livM * 12 + ci.rentW * 4 + 400;
+  return {thb:L * r + 28000, city:ci.n};
+}
+function vCompare(){
+  const codes = Object.keys(COUNTRIES);
+  let h = `<div class="hd"><div><h1>เทียบ 3 ประเทศ</h1><div class="muted">เรียนภาษา 1 ปี (44 สัปดาห์) · ข้อมูล ณ ${fd(DATA_AS_OF)}</div></div></div>
+    <div class="card cmp"><table class="t"><tr><th></th>${codes.map(k => `<th>${COUNTRIES[k].f} ${COUNTRIES[k].n}</th>`).join('')}</tr>
+    <tr><td>ทำงานระหว่างเรียนภาษา</td>${codes.map(k => `<td>${esc(COUNTRIES[k].facts.workS)}</td>`).join('')}</tr>
+    <tr><td>เงินที่ต้องแสดง (ไม่รวมค่าเรียน)</td>${codes.map(k => `<td class="num">${esc(COUNTRIES[k].facts.funds)}</td>`).join('')}</tr>
+    <tr><td>ค่าวีซ่านักเรียน</td>${codes.map(k => `<td>${esc(COUNTRIES[k].facts.fee)}</td>`).join('')}</tr>
+    <tr><td>Working Holiday (คนไทย)</td>${codes.map(k => `<td>${esc(COUNTRIES[k].facts.whv)}</td>`).join('')}</tr>
+    <tr><td>งบประมาณ 1 ปี*</td>${codes.map(k => { const e = estTotal(k); return `<td><b class="num">${thb(e.thb)}</b><div class="muted small">${esc(e.city)}</div></td>`; }).join('')}</tr>
+    <tr><td></td>${codes.map(k => `<td><button class="btn sm ${k === db.country && db.setup ? 'ghost' : 'pri'}" data-act="pickCountry" data-v="${k}">${k === db.country && db.setup ? 'ที่เลือกอยู่' : 'เลือก'}</button></td>`).join('')}</tr></table>
+    <div class="src">* ค่าเรียน 44 สัปดาห์ + ที่พักห้องแชร์ + ค่ากินอยู่ 12 เดือน + ประกัน + วีซ่า + ตั๋ว ฿28,000 · ยังไม่หักรายได้จากงานพิเศษ · ใช้เรทเงิน${rates.at ? 'สด' : 'สำรอง'}ในแอป</div></div>
+    <div class="card"><h2>ข้อสังเกต</h2><div class="stack small" style="margin-top:6px">
+      <div>🇨🇦 แคนาดา: นักเรียนภาษาอย่างเดียวทำงานนอกโรงเรียนไม่ได้ ต้องมีเงินพอทั้งปีโดยไม่นับรายได้</div>
+      <div>🇦🇺 ออสเตรเลีย: แพงที่สุด แต่ทำงานได้ 48 ชม./2 สัปดาห์ ช่วยลดเงินที่ใช้จริง ส่วนวีซ่า 462 ของไทยถูกพักรับสมัครช่วง ส.ค.–ก.ย. 2026</div>
+      <div>🇳🇿 นิวซีแลนด์: ทำงานได้ 25 ชม./สัปดาห์ถ้าโรงเรียน/คอร์สเข้าเกณฑ์ และมี Working Holiday ปีละ 100 ที่ (เรียนได้ไม่เกิน 6 เดือน)</div></div></div>`;
+  return h;
+}
+
+function vSos(){
+  const c = C(), p = db.sos;
+  let h = `<div class="hd"><div><h1>🆘 การ์ดฉุกเฉิน</h1><div class="muted">เปิดได้แม้ไม่มีเน็ต · ข้อมูลอยู่ในเครื่องนี้เท่านั้น</div></div><button class="btn sm pri" data-act="editSos">แก้ไข</button></div>
+    <div class="card"><div class="ch"><h2>📞 เบอร์ฉุกเฉิน · ${c.f} ${esc(c.n)}</h2></div><div class="em"><a href="tel:${c.e[0]}">👮🚑🚒 ${c.e[0]}</a></div><div class="muted small" style="margin-top:6px">ตำรวจ รถพยาบาล ดับเพลิง ใช้เบอร์เดียวกัน</div></div>`;
+  h += `<div class="card"><div class="ch"><h2>🇹🇭 สถานทูต/สถานกงสุลไทย</h2></div>` + c.embassy.map(e => `<div class="li"><div class="grow"><b>${esc(e.n)}</b>${e.a ? `<div class="muted small">${esc(e.a)}</div>` : ''}
+      <div class="small">สำนักงาน: ${e.tel ? `<a class="tel" href="tel:${e.tel}">${esc(e.show)}</a>` : `<a href="${esc(e.u)}" target="_blank" rel="noopener">${esc(e.show)}</a>`}</div>
+      <div class="small">ฉุกเฉินนอกเวลา: <a class="tel" href="tel:${e.em}" style="color:var(--bad)">${esc(e.ems)}</a></div></div></div>`).join('') +
+    `<div class="li"><div class="grow"><b>${THAI_MFA.n}</b><div class="small"><a class="tel" href="tel:${THAI_MFA.tel}">${THAI_MFA.show}</a></div></div></div>
+    <div class="src">เบอร์ฉุกเฉินนอกเวลาจากรายการของกรมการกงสุล ควรเช็กกับเว็บสถานทูตก่อนเดินทาง</div></div>`;
+  h += `<div class="card"><div class="ch"><h2>👤 ข้อมูลของฉัน</h2></div>${p.name || p.addr || p.policy ? `<table class="t">
+    ${[['ชื่อ', p.name], ['ที่อยู่ที่พัก', p.addr], ['โรงเรียน', p.school], ['เบอร์โรงเรียน', p.schoolPhone, 1], ['บริษัทประกัน', p.insurer], ['เลขกรมธรรม์', p.policy], ['เบอร์ประกัน (ฉุกเฉิน)', p.insPhone, 1], ['กรุ๊ปเลือด', p.blood], ['แพ้ยา/อาหาร', p.allergy], ['ยาประจำตัว', p.meds]]
+      .filter(x => x[1]).map(([k, v, tel]) => `<tr><td class="muted">${k}</td><td>${tel ? `<a class="tel" href="tel:${esc(v.replace(/[^\d+]/g, ''))}">${esc(v)}</a>` : esc(v)}</td></tr>`).join('')}</table>` : `<div class="muted">ยังไม่ได้กรอก แตะ "แก้ไข"</div>`}
+    ${p.contacts.filter(x => x.phone).map(x => `<div class="row" style="padding:6px 0"><span class="grow">${esc(x.name || 'ผู้ติดต่อฉุกเฉิน')}</span><a class="tel" href="tel:${esc(x.phone.replace(/[^\d+]/g, ''))}">${esc(x.phone)}</a></div>`).join('')}</div>`;
+  h += `<div class="card"><div class="ch"><h2>💬 ประโยคขอความช่วยเหลือ</h2></div>${SOS_PHRASES.map(([th, en]) => `<div class="phr"><b>${esc(en)}</b><span class="muted">${esc(th)}</span></div>`).join('')}</div>`;
+  return h;
+}
+
+/* ============ SHEETS ============ */
+function openSheet(html, onSubmit){
+  S = {onSubmit}; const sh = $('#sheet'); sh.innerHTML = `<form id="sf">${html}</form>`; sh.hidden = false; $('#scrim').hidden = false; document.body.classList.add('lock');
+  $('#sf').onsubmit = e => { e.preventDefault(); const fd = Object.fromEntries(new FormData(e.target)); S.onSubmit && S.onSubmit(fd, e.target); };
+  hydrate(sh);
+}
+function closeSheet(){ $('#sheet').hidden = true; $('#scrim').hidden = true; document.body.classList.remove('lock'); S = null; }
+const shHead = t => `<div class="sh"><b>${t}</b><button type="button" class="xb" data-act="closeSheet" aria-label="ปิด">✕</button></div>`;
+const shFoot = (ok='บันทึก', del) => `<div class="sf">${del ? `<button type="button" class="btn bad" data-act="${del}">ลบ</button>` : ''}<button class="btn pri">${ok}</button></div>`;
+const opt = (o, v) => Object.entries(o).map(([k, n]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${esc(Array.isArray(n) ? n[1] : n)}</option>`).join('');
+
+function sheetSetup(){
+  const c = C();
+  const html = shHead('ตั้งค่าแผน') + `<div class="stack">
+    <label class="f">ประเทศ<select name="country" data-act="setupCountry">${Object.entries(COUNTRIES).map(([k, x]) => `<option value="${k}" ${k === db.country ? 'selected' : ''}>${x.f} ${x.n}</option>`).join('')}</select></label>
+    <div id="setupDyn">${setupDyn(db.country)}</div>
+    <label class="f">วันเดินทาง (ใส่คร่าวๆ ก่อนได้)<input type="date" name="depart" value="${esc(db.depart)}"></label>
+    <div class="g2"><label class="f">อยู่กี่เดือน<input type="number" inputmode="numeric" name="months" value="${months()}" min="1" max="36"></label>
+    <label class="f">เรียนกี่สัปดาห์<input type="number" inputmode="numeric" name="weeks" value="${esc(db.weeks)}" min="0" max="156"></label></div>
+    <label class="f">เงินทั้งหมดที่มีสำหรับแผนนี้ (บาท)<input type="text" inputmode="decimal" name="savings" value="${num(db.savings) || ''}" placeholder="เช่น 800000"></label>
+    <label class="f">ค่าตั๋วเครื่องบิน ไป-กลับ (บาท)<input type="text" inputmode="decimal" name="flight" value="${num(db.flight) || ''}"></label>
+    <label class="f">จ่ายค่าเรียนแบบไหน<select name="pay"><option value="upfront" ${db.pay === 'upfront' ? 'selected' : ''}>จ่ายก่อนไปทั้งหมด</option><option value="monthly" ${db.pay === 'monthly' ? 'selected' : ''}>แบ่งจ่ายรายเดือนระหว่างเรียน</option></select></label>
+    <label class="f">รายได้งานพิเศษที่คาดว่าจะได้ / เดือน (สกุลเงินท้องถิ่น ใส่ 0 ถ้าไม่ทำ)<input type="text" inputmode="decimal" name="income" value="${num(db.income) || ''}" placeholder="0"></label>
+    <div class="src">รายได้เริ่มนับตั้งแต่เดือนที่ 2 และไม่นับถ้าวีซ่าไม่ให้ทำงาน · ค่าใช้จ่ายรายละเอียดแก้ได้ในหน้า "งบ"</div></div>` + shFoot('บันทึกแผน');
+  openSheet(html, f => {
+    const changed = f.country !== db.country, wasSetup = db.setup;
+    Object.assign(db, {country:f.country, visa:f.visa, city:f.city, depart:f.depart, months:parseInt(f.months) || 12, weeks:parseInt(f.weeks) || 0, savings:num(f.savings), flight:num(f.flight), pay:f.pay, income:num(f.income), setup:true});
+    const v = COUNTRIES[db.country].visas[db.visa]; if (v && v.studyMax && db.weeks > v.studyMax) toast(`วีซ่านี้เรียนได้สูงสุด ${v.studyMax} สัปดาห์ แอปจะคิดตามนั้น`);
+    const first = !wasSetup; save(); closeSheet(); if (changed || first || ui.view === 'compare') ui.view = 'home'; render(); toast('บันทึกแผนแล้ว');
+  });
+}
+function setupDyn(code){
+  const c = COUNTRIES[code];
+  return `<div class="stack"><label class="f">เมือง<select name="city">${Object.entries(c.cities).map(([k, x]) => `<option value="${k}" ${k === db.city ? 'selected' : ''}>${x.n}</option>`).join('')}</select></label>
+    <label class="f">ประเภทวีซ่า<select name="visa">${Object.entries(c.visas).map(([k, x]) => `<option value="${k}" ${k === db.visa ? 'selected' : ''} ${x.ok ? '' : 'disabled'}>${esc(x.n)}${x.ok ? '' : ' (คนไทยใช้ไม่ได้)'}</option>`).join('')}</select></label>
+    ${c.visas.whv.ok ? `<div class="src">Working Holiday: ${esc(c.visas.whv.status || '')}</div>` : ''}</div>`;
+}
+
+function sheetCosts(){
+  const lc = LC();
+  openSheet(shHead(`ตัวเลขค่าใช้จ่าย (${lc})`) + `<div class="stack">${COSTS.map(([k, n]) => `<label class="f">${n} <span class="muted small">ค่าแนะนำ ${money(defCost(k), lc)}</span><input type="text" inputmode="decimal" name="${k}" value="${ov()[k] ?? ''}" placeholder="${defCost(k)}"></label>`).join('')}
+    <div class="src">เว้นว่างเพื่อใช้ค่าแนะนำ · ค่าประมาณห้องแชร์ ควรแก้ตามใบเสนอราคาจริงของโรงเรียน/ที่พัก</div></div>` + shFoot(), f => {
+    for (const [k] of COSTS) { if (f[k] === '' || f[k] === undefined) delete ov()[k]; else ov()[k] = num(f[k]); }
+    save(); closeSheet(); render(); toast('อัปเดตแผนงบแล้ว'); });
+}
+function sheetRates(){
+  const codes = Object.keys(CURR).filter(k => k !== 'THB');
+  openSheet(shHead('เรทเงิน (บาทต่อ 1 หน่วย)') + `<div class="stack">${codes.map(k => `<label class="f">${k} · ${CURR[k].n} <span class="muted small">${rateSrc(k)}: ${rate(k).toFixed(3)}</span><input type="text" inputmode="decimal" name="${k}" value="${db.rateOver[k] || ''}" placeholder="ใช้เรทอัตโนมัติ"></label>`).join('')}
+    <button type="button" class="btn ghost full" data-act="refreshRates">🔄 ดึงเรทล่าสุด</button><div class="src">ใส่เลขเองถ้าอยากใช้เรทที่แลกจริง (เช่นเรทของบัตร Travel card) เว้นว่างเพื่อใช้อัตโนมัติ</div></div>` + shFoot(), f => {
+    for (const k of codes) { if (num(f[k])) db.rateOver[k] = num(f[k]); else delete db.rateOver[k]; } save(); closeSheet(); render(); });
+}
+
+function sheetTask(id){
+  const t = id ? allTasks().find(x => x.id === id) : null, custom = !t || t.custom;
+  openSheet(shHead(t ? 'แก้ไขงาน' : 'เพิ่มงาน') + `<div class="stack">
+    ${custom ? `<label class="f">ต้องทำอะไร<input name="t" value="${esc(t?.t || '')}" required></label><label class="f">รายละเอียด<textarea name="x">${esc(t?.x || '')}</textarea></label>` : `<div><b>${esc(t.t)}</b><div class="muted small">${esc(t.x || '')}</div></div>`}
+    <label class="f">วันที่จะทำ<input type="date" name="date" value="${esc(t?.date || '')}"></label>
+    ${!custom && db.taskDate[id] ? `<button type="button" class="btn ghost sm" data-act="resetTaskDate" data-id="${id}">ใช้วันที่แนะนำ</button>` : ''}</div>` + shFoot('บันทึก', t && custom ? 'delTask' : ''), f => {
+    if (custom) { if (t) { const c = db.custom.find(x => x.id === id); Object.assign(c, {t:f.t, x:f.x, date:f.date}); delete db.taskDate[id]; } else db.custom.push({id:'u_' + uid(), t:f.t, x:f.x, date:f.date}); }
+    else { if (f.date) db.taskDate[id] = f.date; else delete db.taskDate[id]; }
+    save(); closeSheet(); render(); });
+  S.id = id;
+}
+
+function sheetTx(id){
+  const t = id ? db.tx.find(x => x.id === id) : null, lc = LC();
+  const curr = t?.curr || lc;
+  openSheet(shHead(t ? 'แก้ไขรายการ' : 'บันทึกรายการ') + `<div class="stack">
+    <div class="seg" id="txType"><button type="button" class="${t?.type !== 'inc' ? 'on' : ''}" data-act="txType" data-v="exp">รายจ่าย</button><button type="button" class="${t?.type === 'inc' ? 'on' : ''}" data-act="txType" data-v="inc">รายรับ</button></div>
+    <input type="hidden" name="type" value="${t?.type || 'exp'}">
+    <div class="g2"><label class="f">จำนวนเงิน<input type="text" inputmode="decimal" name="amount" value="${t ? num(t.amount) : ''}" required autofocus></label>
+    <label class="f">สกุลเงิน<select name="curr">${[...new Set([lc, 'THB', ...Object.keys(CURR)])].map(k => `<option ${k === curr ? 'selected' : ''}>${k}</option>`).join('')}</select></label></div>
+    <label class="f">หมวด<select name="cat">${opt(Object.fromEntries(Object.entries(CATS).filter(([k]) => k !== 'income')), t?.cat || 'food')}</select></label>
+    <label class="f">วันที่<input type="date" name="date" value="${esc(t?.date || todayIso())}" required></label>
+    <label class="f">โน้ต<input name="note" value="${esc(t?.note || '')}" placeholder="เช่น ค่าเช่าห้อง ต.ค."></label>
+    <div class="src">เรทที่ใช้: ${rate(curr).toFixed(3)} บาท (${rateSrc(curr)}) จะถูกบันทึกไว้กับรายการ</div></div>` + shFoot('บันทึก', t ? 'delTx' : ''), f => {
+    const o = {type:f.type, amount:num(f.amount), curr:f.curr, cat:f.type === 'inc' ? 'income' : f.cat, date:f.date, note:f.note, rate:t && t.curr === f.curr ? t.rate : rate(f.curr)};
+    if (!o.amount) { toast('ใส่จำนวนเงิน', 'bad'); return; }
+    if (t) Object.assign(t, o); else db.tx.push({id:uid(), ...o});
+    ui.txMonth = monthIdx(o.date); save(); closeSheet(); render(); toast('บันทึกแล้ว'); });
+  S.id = id;
+}
+
+let pendingFiles = [];
+function sheetDoc(id){
+  const d = id ? db.docs.find(x => x.id === id) : null;
+  pendingFiles = d ? d.files.map(f => ({...f})) : [];
+  openSheet(shHead(d ? 'แก้ไขเอกสาร' : 'เพิ่มเอกสาร') + `<div class="stack">
+    <label class="f">ประเภท<select name="type">${opt(DOC_T, d?.type || 'passport')}</select></label>
+    <label class="f">ชื่อเอกสาร<input name="name" value="${esc(d?.name || '')}" placeholder="เช่น Student visa 500"></label>
+    <label class="f">วันหมดอายุ (ถ้ามี — แอปจะเตือนล่วงหน้า)<input type="date" name="expiry" value="${esc(d?.expiry || '')}"></label>
+    <label class="f">โน้ต<textarea name="note" placeholder="เช่น เลขอ้างอิงคำร้อง เงื่อนไขที่ระบุในวีซ่า">${esc(d?.note || '')}</textarea></label>
+    <div><button type="button" class="btn ghost full" data-act="pickDocFile">📷 ถ่ายรูป / แนบรูปหรือ PDF</button><div class="files" id="docFiles"></div></div></div>` + shFoot('บันทึก', d ? 'delDoc' : ''), async f => {
+    const o = {type:f.type, name:f.name, expiry:f.expiry, note:f.note, files:pendingFiles.map(({id, kind, name}) => ({id, kind, name}))};
+    if (d) { for (const old of d.files) if (!o.files.some(x => x.id === old.id)) IDB.del(old.id); Object.assign(d, o); } else db.docs.push({id:uid(), ...o});
+    save(); closeSheet(); render(); toast('บันทึกเอกสารแล้ว'); });
+  S.id = id; drawDocFiles();
+}
+function drawDocFiles(){
+  const el = $('#docFiles'); if (!el) return;
+  el.innerHTML = pendingFiles.map((f, i) => `<div class="f" data-act="openFile" data-id="${f.id}">${f.kind === 'img' ? `<img data-fid="${f.id}" alt="">` : `📄<br>${esc((f.name || 'PDF').slice(0, 10))}`}<button type="button" class="rm" data-act="rmDocFile" data-i="${i}" aria-label="เอาออก">✕</button></div>`).join('');
+  hydrate(el);
+}
+async function addDocFiles(list){
+  for (const file of list) {
+    try {
+      const isImg = file.type.startsWith('image/');
+      if (!isImg && file.size > 15e6) { toast('ไฟล์ใหญ่เกิน 15 MB', 'bad'); continue; }
+      const data = isImg ? await compress(file) : await readURL(file), id = 'f_' + uid();
+      await IDB.put(id, {data, name:file.name, type:isImg ? 'image/jpeg' : file.type}); cache.set(id, {data, name:file.name});
+      pendingFiles.push({id, kind:isImg ? 'img' : 'pdf', name:file.name});
+    } catch { toast('อ่านไฟล์ไม่ได้', 'bad'); }
+  }
+  drawDocFiles();
+}
+
+function sheetCls(id){
+  const c = id ? db.classes.find(x => x.id === id) : null;
+  openSheet(shHead(c ? 'แก้ไขคาบเรียน' : 'เพิ่มคาบเรียน') + `<div class="stack">
+    <label class="f">วิชา/คลาส<input name="name" value="${esc(c?.name || '')}" required placeholder="เช่น General English"></label>
+    <label class="f">วัน${c ? '' : ' (เลือกได้หลายวัน)'}${c ? `<select name="day">${[1,2,3,4,5,6,0].map(d => `<option value="${d}" ${+c.day === d ? 'selected' : ''}>${TH_D[d]}</option>`).join('')}</select>` :
+      `<div class="g2">${[1,2,3,4,5,6,0].map(d => `<label class="tog"><input type="checkbox" name="d${d}" ${d >= 1 && d <= 5 ? 'checked' : ''}>${TH_D[d]}</label>`).join('')}</div>`}</label>
+    <div class="g2"><label class="f">เริ่ม<input type="time" name="start" value="${esc(c?.start || '09:00')}" required></label><label class="f">จบ<input type="time" name="end" value="${esc(c?.end || '12:30')}" required></label></div>
+    <label class="f">ห้อง/ครู<input name="room" value="${esc(c?.room || '')}"></label></div>` + shFoot('บันทึก', c ? 'delCls' : ''), f => {
+    if (c) Object.assign(c, {name:f.name, day:+f.day, start:f.start, end:f.end, room:f.room});
+    else { const ds = [1,2,3,4,5,6,0].filter(d => f['d' + d]); if (!ds.length) { toast('เลือกอย่างน้อย 1 วัน', 'bad'); return; }
+      for (const d of ds) db.classes.push({id:uid(), name:f.name, day:d, start:f.start, end:f.end, room:f.room}); }
+    save(); closeSheet(); render(); });
+  S.id = id;
+}
+function sheetEv(id){
+  const e = id ? db.events.find(x => x.id === id) : null, lc = LC();
+  openSheet(shHead(e ? 'แก้ไขรายการ' : 'เพิ่มวันหยุด / ทริป') + `<div class="stack">
+    <label class="f">ประเภท<select name="type">${opt(EV_T, e?.type || 'trip')}</select></label>
+    <label class="f">ชื่อ<input name="title" value="${esc(e?.title || '')}" required placeholder="เช่น ปิดเทอมคริสต์มาส / ทริปเมลเบิร์น"></label>
+    <div class="g2"><label class="f">วันเริ่ม<input type="date" name="date" value="${esc(e?.date || '')}" required></label><label class="f">วันจบ<input type="date" name="end" value="${esc(e?.end || '')}"></label></div>
+    <div class="g2"><label class="f">ค่าใช้จ่ายประมาณ<input type="text" inputmode="decimal" name="cost" value="${num(e?.cost) || ''}"></label><label class="f">สกุลเงิน<select name="curr">${[lc, 'THB'].map(k => `<option ${k === (e?.curr || lc) ? 'selected' : ''}>${k}</option>`).join('')}</select></label></div>
+    <label class="f">โน้ต<textarea name="note">${esc(e?.note || '')}</textarea></label>
+    <div class="src">ค่าใช้จ่ายจะถูกรวมในแผนงบเดือนนั้น · ช่วงปิดเทอมของโรงเรียน นักเรียนออสเตรเลียทำงานได้ไม่จำกัดชั่วโมง</div></div>` + shFoot('บันทึก', e ? 'delEv' : ''), f => {
+    const o = {type:f.type, title:f.title, date:f.date, end:f.end, cost:num(f.cost), curr:f.curr, note:f.note};
+    if (e) Object.assign(e, o); else db.events.push({id:uid(), ...o}); save(); closeSheet(); render(); });
+  S.id = id;
+}
+function sheetSos(){
+  const p = db.sos, fl = (n, k, ph='', type='text') => `<label class="f">${n}<input type="${type}" name="${k}" value="${esc(p[k])}" placeholder="${ph}"></label>`;
+  openSheet(shHead('แก้ไขการ์ดฉุกเฉิน') + `<div class="stack">${fl('ชื่อ-นามสกุล (ตามพาสปอร์ต)', 'name')}${fl('ที่อยู่ที่พัก', 'addr')}${fl('โรงเรียน', 'school')}${fl('เบอร์โรงเรียน', 'schoolPhone', '', 'tel')}
+    ${fl('บริษัทประกัน', 'insurer')}${fl('เลขกรมธรรม์', 'policy')}${fl('เบอร์ประกัน (ฉุกเฉิน 24 ชม.)', 'insPhone', '', 'tel')}
+    <div class="g2">${fl('กรุ๊ปเลือด', 'blood')}${fl('แพ้ยา/อาหาร', 'allergy')}</div>${fl('ยาประจำตัว', 'meds')}
+    ${p.contacts.map((c, i) => `<div class="g2"><label class="f">ผู้ติดต่อ ${i + 1}<input name="cn${i}" value="${esc(c.name)}" placeholder="ชื่อ/ความสัมพันธ์"></label><label class="f">เบอร์<input type="tel" name="cp${i}" value="${esc(c.phone)}" placeholder="+66..."></label></div>`).join('')}</div>` + shFoot(), f => {
+    for (const k of ['name','addr','school','schoolPhone','insurer','policy','insPhone','blood','allergy','meds']) p[k] = f[k] || '';
+    p.contacts = p.contacts.map((c, i) => ({name:f['cn' + i] || '', phone:f['cp' + i] || ''})); save(); closeSheet(); render(); toast('บันทึกการ์ดฉุกเฉินแล้ว'); });
+}
+
+/* ============ BACKUP / ICS ============ */
+function download(name, text, type){ const b = new Blob([text], {type}), u = URL.createObjectURL(b), a = document.createElement('a'); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 5000); }
+async function exportData(){
+  const files = {}; for (const d of db.docs) for (const f of d.files) { const v = await fileData(f.id); if (v) files[f.id] = v; }
+  db.lastBackup = new Date().toISOString(); save();
+  download(`studyabroad-backup-${todayIso()}.json`, JSON.stringify({app:'StudyAbroad', version:1, exportedAt:db.lastBackup, db, files}), 'application/json');
+  render(); toast('สำรองข้อมูลแล้ว เก็บไฟล์ไว้ใน Google Drive ได้');
+}
+async function importData(file){
+  let d; try { d = JSON.parse(await file.text()); } catch { toast('อ่านไฟล์ไม่ได้ ต้องเป็นไฟล์ .json จากแอปนี้', 'bad'); return; }
+  if (!d || d.app !== 'StudyAbroad' || !d.db) { toast('ไฟล์นี้ไม่ใช่ข้อมูลสำรองของ StudyAbroad', 'bad'); return; }
+  if (!confirm(`กู้คืนข้อมูลจากไฟล์วันที่ ${fd((d.exportedAt || '').slice(0, 10))}?\nข้อมูลในเครื่องตอนนี้จะถูกแทนที่ทั้งหมด`)) return;
+  for (const [id, v] of Object.entries(d.files || {})) { try { await IDB.put(id, v); cache.set(id, v); } catch {} }
+  db = Object.assign(blank(), d.db); db.sos = Object.assign(blankSos(), db.sos || {}); save(); ui.view = 'home'; render(); toast('กู้คืนข้อมูลแล้ว');
+}
+function exportIcs(){
+  const ev = [], stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', d8 = s => s.replace(/-/g, ''), escI = s => String(s || '').replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+  const add = (id, date, title, desc, alarmDays) => ev.push(['BEGIN:VEVENT', `UID:${id}@studyabroad`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${d8(date)}`, `DTEND;VALUE=DATE:${d8(addDays(date, 1))}`, `SUMMARY:${escI(title)}`, desc ? `DESCRIPTION:${escI(desc)}` : '',
+    ...(alarmDays !== undefined ? ['BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escI(title)}`, `TRIGGER:-P${alarmDays}D`, 'END:VALARM'] : []), 'END:VEVENT'].filter(Boolean).join('\r\n'));
+  for (const t of allTasks()) if (t.date && !t.done) add(t.id, t.date, '🎓 ' + t.t, t.x, 0);
+  for (const d of db.docs) if (d.expiry) { add('exp_' + d.id, d.expiry, `⚠️ ${d.name || DOC_T[d.type][1]} หมดอายุ`, 'จาก StudyAbroad', d.type === 'passport' ? 180 : 30); }
+  if (db.depart) { add('depart', db.depart, '✈️ วันเดินทาง', '', 1); add('end', endDate(), '🏁 จบแผน/กลับไทย', '', 30); }
+  if (!ev.length) { toast('ยังไม่มีรายการที่มีวันที่', 'bad'); return; }
+  download('studyabroad.ics', ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//StudyAbroad//TH', 'CALSCALE:GREGORIAN', ...ev, 'END:VCALENDAR'].join('\r\n'), 'text/calendar');
+  toast('ได้ไฟล์ .ics แล้ว เปิดด้วย Google Calendar เพื่อเพิ่มการเตือน');
+}
+
+/* ============ EVENTS ============ */
+let tt; function toast(m, k=''){ const t = $('#toast'); t.textContent = m; t.className = k; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 2600); }
+const A = {
+  go:(el) => go(el.dataset.v), menu:() => { $('#menu').hidden = !$('#menu').hidden; },
+  setup:() => { $('#menu').hidden = true; sheetSetup(); }, closeSheet,
+  planTab:el => { ui.planTab = el.dataset.v; render(); }, moneyTab:el => { ui.moneyTab = el.dataset.v; render(); }, lifeTab:el => { ui.lifeTab = el.dataset.v; render(); },
+  txMonth:el => { ui.txMonth = +el.dataset.v; render(); },
+  tTask:el => { const id = el.dataset.id; db.tasks[id] = !db.tasks[id]; if (!db.tasks[id]) delete db.tasks[id]; save(); render(); },
+  tArr:el => { const id = el.dataset.id; db.arrival[id] = !db.arrival[id]; if (!db.arrival[id]) delete db.arrival[id]; save(); render(); },
+  editTask:el => sheetTask(el.dataset.id), addTask:() => sheetTask(null),
+  resetTaskDate:el => { delete db.taskDate[el.dataset.id]; save(); closeSheet(); render(); },
+  delTask:() => { if (!confirm('ลบงานนี้?')) return; db.custom = db.custom.filter(x => x.id !== S.id); delete db.tasks[S.id]; save(); closeSheet(); render(); },
+  editCosts:sheetCosts, rates:sheetRates,
+  refreshRates:async () => { toast('กำลังดึงเรท…'); if (await fetchRates()) { closeSheet(); render(); toast('อัปเดตเรทแล้ว'); } else toast('ดึงเรทไม่ได้ ใช้เรทสำรองไปก่อน', 'bad'); },
+  addTx:() => sheetTx(null), editTx:el => sheetTx(el.dataset.id),
+  txType:el => { $('[name=type]').value = el.dataset.v; $$('#txType button').forEach(b => b.classList.toggle('on', b === el)); $('[name=cat]').closest('label').hidden = el.dataset.v === 'inc'; },
+  delTx:() => { if (!confirm('ลบรายการนี้?')) return; db.tx = db.tx.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
+  addDoc:() => sheetDoc(null), editDoc:el => sheetDoc(el.dataset.id), pickDocFile:() => $('#fileDoc').click(),
+  rmDocFile:(el, ev) => { ev.stopPropagation(); pendingFiles.splice(+el.dataset.i, 1); drawDocFiles(); },
+  openFile:el => openFile(el.dataset.id),
+  delDoc:() => { if (!confirm('ลบเอกสารนี้และไฟล์ทั้งหมด?')) return; const d = db.docs.find(x => x.id === S.id); d.files.forEach(f => IDB.del(f.id)); db.docs = db.docs.filter(x => x !== d); save(); closeSheet(); render(); },
+  addCls:() => sheetCls(null), editCls:el => sheetCls(el.dataset.id),
+  delCls:() => { db.classes = db.classes.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
+  addEv:() => sheetEv(null), editEv:el => sheetEv(el.dataset.id),
+  delEv:() => { db.events = db.events.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
+  editSos:sheetSos, pickCountry:el => { db.country = el.dataset.v; db.city = Object.keys(COUNTRIES[db.country].cities)[0]; if (!COUNTRIES[db.country].visas[db.visa]?.ok) db.visa = 'student'; save(); sheetSetup(); },
+  backup:() => { $('#menu').hidden = true; exportData(); }, restore:() => { $('#menu').hidden = true; $('#fileRestore').click(); }, ics:() => { $('#menu').hidden = true; exportIcs(); },
+  install:async () => { $('#menu').hidden = true; if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; $('#installBtn').hidden = true; } }
+};
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('[data-act]');
+  if (!ev.target.closest('#menu') && !ev.target.closest('[data-act=menu]')) $('#menu').hidden = true;
+  if (!el || el.tagName === 'SELECT') return;
+  const f = A[el.dataset.act]; if (f) { if (el.tagName === 'BUTTON' && el.type !== 'submit') ev.preventDefault(); f(el, ev); }
+});
+document.addEventListener('change', ev => {
+  if (ev.target.matches('[data-act=setupCountry]')) { const code = ev.target.value; const keep = {visa:db.visa, city:db.city};
+    db.city = Object.keys(COUNTRIES[code].cities)[0]; db.visa = COUNTRIES[code].visas[keep.visa]?.ok ? keep.visa : 'student';
+    $('#setupDyn').innerHTML = setupDyn(code); db.city = keep.city; db.visa = keep.visa; }
+});
+$('#fileRestore').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) importData(f); };
+$('#fileDoc').onchange = e => { const l = [...e.target.files]; e.target.value = ''; addDocFiles(l); };
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBtn').hidden = false; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && S) closeSheet(); });
+
+/* ============ START ============ */
+load(); render();
+if (!rates.at || Date.now() - new Date(rates.at) > 6 * 3600e3) fetchRates().then(ok => { if (ok) render(); });
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
