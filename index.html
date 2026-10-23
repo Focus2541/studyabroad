@@ -42,6 +42,13 @@ h2{font-size:15px;font-weight:700}
 .grow{flex:1;min-width:0}
 .row{display:flex;align-items:center;gap:10px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.g3 .btn{padding:0 6px;font-size:13px}
+details.card>summary{list-style:none;cursor:pointer;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+details.card>summary::after{content:"▾";color:var(--ink3)}
+details.card[open]>summary::after{content:"▴"}
+.season{border-left:4px solid var(--line2);padding-left:10px}
+.season.now{border-color:var(--acc)}
 .stack>*+*{margin-top:10px}
 
 .top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px 16px;display:flex;align-items:center;gap:6px}
@@ -175,6 +182,7 @@ nav.bn button.on .i{filter:none;opacity:1}
     <button class="ib" data-act="menu" aria-label="เมนู">☰</button>
     <div id="menu" hidden>
       <button data-act="go" data-v="rules">📜 กฎที่นักเรียนต้องรู้</button>
+      <button data-act="go" data-v="know">⚠️ ข้อควรระวัง & ข้อควรรู้</button>
       <button data-act="go" data-v="schools">🏫 เทียบโรงเรียน</button>
       <button data-act="go" data-v="fx">💱 อัตราแลกเปลี่ยน</button>
       <button data-act="go" data-v="line">🔔 แจ้งเตือนผ่าน LINE</button>
@@ -230,11 +238,11 @@ const money = (n, c) => c === 'THB' ? thb(n) : (n < 0 ? '−' : '') + (CURR[c]?.
 const KEY = 'studyabroad.v1', RKEY = 'studyabroad.rates';
 const blankSos = () => ({name:'', addr:'', school:'', schoolPhone:'', insurer:'', policy:'', insPhone:'', blood:'', allergy:'', meds:'', contacts:[{name:'', phone:''},{name:'', phone:''}]});
 const blank = () => ({v:1, setup:false, country:'AU', visa:'student', city:'syd', depart:'', months:12, weeks:44, savings:0, income:0, flight:28000, pay:'upfront',
-  work:{wage:'', casual:true, hoursW:0, tax:'', mode:'calc'}, shifts:[], schools:[], rooms:[], schoolId:null, roomId:null, rateHist:{}, rateTarget:null, line:{url:'', secret:'', on:false, lastSync:null, sig:''},
+  work:{wage:'', casual:true, hoursW:0, tax:'', mode:'calc'}, shifts:[], schools:[], rooms:[], schoolId:null, roomId:null, rateHist:{}, rateTarget:null, pack:{}, packCustom:[], line:{url:'', secret:'', on:false, lastSync:null, sig:''},
   over:{}, tasks:{}, taskDate:{}, custom:[], arrival:{}, docs:[], tx:[], classes:[], events:[], sos:blankSos(), rateOver:{}, lastBackup:null, created:todayIso()});
 let db = blank();
 let rates = {rates:{}, at:null};
-const ui = {view:'home', planTab:'before', moneyTab:'plan', lifeTab:'week', txMonth:null, fxC:null};
+const ui = {view:'home', planTab:'before', moneyTab:'plan', lifeTab:'week', txMonth:null, fxC:null, knowTab:'caution'};
 let S = null, deferredPrompt = null;
 
 function load(){
@@ -244,7 +252,7 @@ function load(){
   try { const r = JSON.parse(localStorage.getItem(RKEY)); if (r && r.rates) rates = r; } catch {}
 }
 function fixDb(){ db.work = Object.assign({wage:'', casual:true, hoursW:0, tax:'', mode:'calc'}, db.work || {});
-  db.line = Object.assign({url:'', secret:'', on:false, lastSync:null, sig:''}, db.line || {}); for (const k of ['shifts','schools','rooms']) if (!Array.isArray(db[k])) db[k] = []; db.rateHist ||= {}; }
+  db.line = Object.assign({url:'', secret:'', on:false, lastSync:null, sig:''}, db.line || {}); db.pack ||= {}; for (const k of ['shifts','schools','rooms','packCustom']) if (!Array.isArray(db[k])) db[k] = []; db.rateHist ||= {}; }
 function saveRaw(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { toast('บันทึกไม่สำเร็จ พื้นที่ในเครื่องเต็ม', 'bad'); } }
 function save(){ saveRaw(); lineSoon(); }
 
@@ -365,8 +373,9 @@ const PLAN_CAT = {tuition:'tuition', visa:'visa', ins:'ins', flight:'flight', re
 
 /* ============ TIMELINE ============ */
 function allTasks(){
-  const v = V(); const list = [...COMMON_TASKS, ...(v.tasks || []), ...db.custom.map(c => ({...c, custom:true}))];
-  return list.map(t => { const date = db.taskDate[t.id] || (t.date ? t.date : (db.depart ? addDays(db.depart, t.d) : '')); return {...t, date, done:!!db.tasks[t.id]}; })
+  const v = V(), ends = [...END_TASKS.common, ...(END_TASKS[db.country] || [])].map(t => ({...t, end:true}));
+  const list = [...COMMON_TASKS, ...(v.tasks || []), ...db.custom.map(c => ({...c, custom:true})), ...ends];
+  return list.map(t => { const date = db.taskDate[t.id] || (t.date ? t.date : !db.depart ? '' : t.end ? addDays(endDate(), t.e) : addDays(db.depart, t.d)); return {...t, date, done:!!db.tasks[t.id]}; })
     .sort((a, b) => (a.date || '9') < (b.date || '9') ? -1 : (a.date || '9') > (b.date || '9') ? 1 : (a.d || 0) - (b.d || 0));
 }
 const arrivalList = () => C().arrival.filter(a => !a.who || a.who === db.visa);
@@ -385,7 +394,7 @@ function render(){
   $('#topSub').textContent = db.setup ? `${c.f} ${city().n} · ${V() === c.visas.whv ? 'Working Holiday' : 'นักเรียน'}` : '';
   $('#asof').textContent = fd(DATA_AS_OF);
   $$('nav.bn button').forEach(b => b.classList.toggle('on', b.dataset.v === ui.view));
-  const f = {home:vHome, plan:vPlan, money:vMoney, docs:vDocs, life:vLife, rules:vRules, compare:vCompare, sos:vSos, schools:vSchools, fx:vFx, line:vLine}[ui.view] || vHome;
+  const f = {home:vHome, plan:vPlan, money:vMoney, docs:vDocs, life:vLife, rules:vRules, compare:vCompare, sos:vSos, schools:vSchools, fx:vFx, line:vLine, know:vKnow}[ui.view] || vHome;
   $('#app').innerHTML = f(); hydrate($('#app'));
 }
 
@@ -401,7 +410,7 @@ function vHome(){
   else if (t < db.depart) { big = dDiff(t, db.depart); lbl = `วันก่อนเดินทาง · ${fd(db.depart)}`; }
   else if (t <= endDate()) { big = dDiff(t, endDate()); lbl = `วันที่เหลือ · อยู่มาแล้ว ${dDiff(db.depart, t)} วัน`; }
   else { big = '🎉'; lbl = 'จบแผนแล้ว'; }
-  const tasks = allTasks().filter(x => !x.done), next = tasks.slice(0, 4), late = tasks.filter(x => x.date && x.date < t).length;
+  const tasks = allTasks().filter(x => !x.done && !x.end), next = tasks.slice(0, 4), late = tasks.filter(x => x.date && x.date < t).length;
   const rw = runway(), alerts = docAlerts();
   let h = `<div class="hero"><div class="muted">${c.f} ${esc(city().n)}, ${esc(c.n)} · ${esc(v.n)}</div>
     <div class="big">${big}</div><div>${lbl}</div>
@@ -425,6 +434,8 @@ function vHome(){
   // next tasks
   const arrived = db.depart && t >= db.depart;
   if (arrived) { const al = arrivalList().filter(a => !db.arrival[a.id]);
+    const soonEnd = allTasks().filter(x => x.end && !x.done && x.date && dDiff(t, x.date) <= 60);
+    if (soonEnd.length) h += `<div class="card"><div class="ch"><h2>🏁 ก่อนกลับไทย</h2></div>${soonEnd.slice(0, 4).map(taskRow).join('')}</div>`;
     if (al.length) h += `<div class="card"><div class="ch"><h2>📍 หลังไปถึง · ยังเหลือ ${al.length} ข้อ</h2></div>${al.slice(0, 4).map(a => `<div class="li"><button class="ck" data-act="tArr" data-id="${a.id}"></button><div class="grow"><div class="t">${esc(a.t)}</div><div class="x">${esc(a.x)}</div></div></div>`).join('')}
       <button class="btn sm ghost full" style="margin-top:8px" data-act="arrTab">ดูเช็กลิสต์ทั้งหมด</button></div>`; }
   else { h += `<div class="card"><div class="ch"><h2>🗓️ สิ่งที่ต้องทำต่อไป</h2>${late ? `<span class="pill bad">เลยกำหนด ${late}</span>` : ''}</div>`;
@@ -433,7 +444,7 @@ function vHome(){
   // today class
   if (db.classes.length) { const wd = new Date().getDay(), tc = db.classes.filter(x => +x.day === wd).sort((a, b) => a.start < b.start ? -1 : 1);
     h += `<div class="card"><div class="ch"><h2>📚 เรียนวันนี้</h2><span class="muted">${TH_D[wd]}</span></div>${tc.length ? tc.map(clsRow).join('') : '<div class="muted">วันนี้ไม่มีเรียน</div>'}</div>`; }
-  h += `<div class="g2"><button class="btn ghost" data-act="go" data-v="rules">📜 กฎนักเรียน</button><button class="btn ghost" data-act="go" data-v="sos">🆘 การ์ดฉุกเฉิน</button></div>`;
+  h += `<div class="g3"><button class="btn ghost" data-act="go" data-v="rules">📜 กฎวีซ่า</button><button class="btn ghost" data-act="go" data-v="know">⚠️ ข้อควรรู้</button><button class="btn ghost" data-act="go" data-v="sos">🆘 ฉุกเฉิน</button></div>`;
   return h;
 }
 
@@ -447,9 +458,14 @@ function taskRow(t){
 function vPlan(){
   const before = ui.planTab === 'before';
   let h = `<div class="hd"><div><h1>ไทม์ไลน์</h1><div class="muted">${db.depart ? `นับจากวันเดินทาง ${fd(db.depart)}` : 'ใส่วันเดินทางเพื่อให้มีวันที่'}</div></div>${before ? `<button class="btn sm pri" data-act="addTask">+ เพิ่ม</button>` : ''}</div>
-    <div class="seg"><button class="${before ? 'on' : ''}" data-act="planTab" data-v="before">ก่อนไป</button><button class="${!before ? 'on' : ''}" data-act="planTab" data-v="after">หลังไปถึง</button></div>`;
+    <div class="seg">${[['before','ก่อนไป'],['after','หลังไปถึง'],['end','ก่อนกลับ']].map(([k, n]) => `<button class="${ui.planTab === k ? 'on' : ''}" data-act="planTab" data-v="${k}">${n}</button>`).join('')}</div>`;
+  if (ui.planTab === 'end') {
+    const ts = allTasks().filter(t => t.end), done = ts.filter(t => t.done).length;
+    return h + `<div class="card soft"><b>${done}/${ts.length}</b> <span class="muted">ข้อ · นับจากวันจบแผน ${db.depart ? fd(endDate()) : '(ใส่วันเดินทางก่อน)'}</span><div class="prog" style="margin-top:6px"><i style="width:${ts.length ? done/ts.length*100 : 0}%"></i></div></div>
+      <div class="card">${ts.map(taskRow).join('')}</div><div class="src">เงินที่ขอคืนได้ตอนกลับ ดูรายละเอียดในหน้า <a href="#" data-act="go" data-v="know">ข้อควรระวัง & ข้อควรรู้</a></div>`;
+  }
   if (before) {
-    const ts = allTasks(), done = ts.filter(t => t.done).length;
+    const ts = allTasks().filter(t => !t.end), done = ts.filter(t => t.done).length;
     h += `<div class="card soft"><div class="row"><div class="grow"><b>${done}/${ts.length}</b> <span class="muted">ข้อเสร็จแล้ว</span></div></div><div class="prog" style="margin-top:6px"><i style="width:${ts.length ? done/ts.length*100 : 0}%"></i></div></div>`;
     if (V().status) h += `<div class="note">${esc(V().status)}</div>`;
     const groups = {}; for (const t of ts) { const k = t.date ? t.date.slice(0, 7) : 'nodate'; (groups[k] ||= []).push(t); }
@@ -558,6 +574,7 @@ function vRules(){
   h += `<div class="card"><div class="ch"><h2>สรุป</h2></div><table class="t"><tr><td>ทำงานพิเศษ</td><td>${esc(v.work)}</td></tr><tr><td>เงินที่ต้องแสดง</td><td>${money(v.funds, c.c)}<div class="muted small">${esc(v.fundsNote || '')}</div></td></tr><tr><td>ค่าวีซ่า</td><td>${money(v.fee, c.c)}<div class="muted small">${esc(v.feeNote || '')}</div></td></tr>${v.age ? `<tr><td>อายุ</td><td>${esc(v.age)}</td></tr>` : ''}</table></div>`;
   for (const r of c.rules) { const p = r.p[vk] || r.p.all; if (!p) continue;
     h += `<div class="card"><h2 style="margin-bottom:4px">${esc(r.h)}</h2><div>${esc(p)}</div>${r.p.u || r.u ? `<a class="lnk" href="${esc(r.p.u || r.u)}" target="_blank" rel="noopener">เว็บทางการ ↗</a>` : ''}</div>`; }
+  h += `<a class="btn ghost full" style="margin-bottom:12px;text-decoration:none" href="#" data-act="go" data-v="know">⚠️ ข้อควรระวัง มิจฉาชีพ สิทธิ์แรงงาน เงินคืนตอนกลับ ›</a>`;
   h += `<div class="card"><div class="ch"><h2>🔗 เว็บทางการ</h2></div>${c.links.map(([n, u]) => `<div class="li"><div class="grow"><a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a></div></div>`).join('')}</div>`;
   return h;
 }
@@ -881,6 +898,46 @@ function vLine(){
       <div class="src">เตือนล่วงหน้า: งาน 7/1/0 วัน · เอกสาร 60/30/7/1 วัน · พาสปอร์ต 210/180/90/30 วัน · วันเดินทาง 30/7/1 วัน · เรทถึงเป้า (เช็กวันละครั้ง)</div></div>`;
 }
 
+
+/* ============ KNOW (ข้อควรระวัง & ข้อควรรู้ + อากาศ + ของจำเป็น) ============ */
+const stayMonths = () => { if (!db.depart) return []; const out = []; for (let i = 0; i < months(); i++) out.push(addMonths(db.depart, i).slice(0, 7)); return out; };
+function packList(){
+  const items = ESSENTIALS.map(([id, n, g]) => ({id, n, g})), ms = new Set(stayMonths().map(x => +x.slice(5, 7))), seen = new Set(items.map(i => i.n));
+  for (const s of SEASONS[db.country] || []) if (!ms.size || s.m.some(m => ms.has(m))) for (const n of s.pack) if (!seen.has(n)) { seen.add(n); items.push({id:'s_' + n, n, g:'clothes', season:s.t}); }
+  for (const c of db.packCustom) items.push({id:c.id, n:c.n, g:'other', custom:true});
+  return items;
+}
+const PACK_G = {doc:'📄 เอกสาร', money:'💳 เงิน', tech:'🔌 อุปกรณ์', health:'💊 สุขภาพ', clothes:'🧥 เสื้อผ้า', other:'🎒 อื่นๆ'};
+function vKnow(){
+  const c = C(), tab = ui.knowTab;
+  let h = `<div class="hd"><div><h1>⚠️ ข้อควรรู้ · ${c.f} ${esc(c.n)}</h1><div class="muted">ข้อมูล ณ ${fd(DATA_AS_OF)} · ตรวจลิงก์ทางการเสมอ</div></div></div>
+    <div class="seg">${[['caution','ข้อควรระวัง'],['weather','อากาศ'],['pack','ของจำเป็น']].map(([k, n]) => `<button class="${tab === k ? 'on' : ''}" data-act="knowTab" data-v="${k}">${n}</button>`).join('')}</div>`;
+  if (tab === 'caution') {
+    const secs = [...(CAUTION[db.country] || []), ...CAUTION.common];
+    h += secs.map((s, i) => `<details class="card" ${i < 2 ? 'open' : ''}><summary>${esc(s.h)}</summary><div style="margin-top:6px">${s.items.map(([ic, t, u]) => `<div class="li"><span style="font-size:18px">${ic}</span><div class="grow small">${esc(t)}${u ? `<br><a class="lnk" href="${esc(u)}" target="_blank" rel="noopener">เว็บทางการ ↗</a>` : ''}</div></div>`).join('')}</div></details>`).join('');
+    h += `<div class="src">ถ้าโดนหลอกหรือมีเหตุฉุกเฉิน ดูเบอร์สถานทูตไทยใน <a href="#" data-act="go" data-v="sos">การ์ดฉุกเฉิน</a></div>`;
+  } else if (tab === 'weather') {
+    const now = new Date().getMonth() + 1, ms = stayMonths(), pw = POWER[db.country], tr = TRAVEL[db.country];
+    h += `<div class="note info">ฤดูกาลกลับด้านกับไทย${db.country === 'CA' ? 'ไม่ได้ แต่หนาวจัดกว่ามาก' : ' (ซีกโลกใต้): ธ.ค.–ก.พ. คือหน้าร้อน มิ.ย.–ส.ค. คือหน้าหนาว'}</div>`;
+    h += (SEASONS[db.country] || []).map(s => { const mine = ms.filter(x => s.m.includes(+x.slice(5, 7)));
+      return `<div class="card season ${s.m.includes(now) ? 'now' : ''}"><div class="ch"><h2>${s.i} ${esc(s.t)}</h2>${s.m.includes(now) ? '<span class="pill acc">ตอนนี้</span>' : ''}</div>
+        <div class="muted small">${s.m.map(m => TH_M[m - 1]).join(' ')} · <span class="num">${esc(s.temp)}</span></div><div class="small" style="margin-top:4px">${esc(s.d)}</div>
+        ${mine.length ? `<div class="small" style="margin-top:6px"><span class="pill good">คุณอยู่ช่วงนี้ ${mine.length} เดือน</span> ${mine.map(x => fm(x + '-01')).join(', ')}</div>` : ''}
+        ${s.pack.length ? `<div class="muted small" style="margin-top:4px">ควรมี: ${s.pack.map(esc).join(' · ')}</div>` : ''}</div>`; }).join('');
+    h += `<div class="card"><h2>🔌 ปลั๊กและไฟฟ้า</h2><div class="small" style="margin-top:4px">${esc(pw.d)}</div></div>`;
+    h += `<div class="card"><h2>🚌 เดินทางระหว่างเมือง</h2><div class="small" style="margin-top:4px">${tr.go.map(([n, u, d]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> (${esc(d)})`).join(' · ')}<br><span class="muted">ในเมือง: ${tr.local.map(esc).join(' · ')}</span></div></div>
+      <div class="src">อุณหภูมิเป็นค่าเฉลี่ยโดยประมาณจาก TripBudget ดูพยากรณ์จริงก่อนเดินทาง</div>`;
+  } else {
+    const items = packList(), done = items.filter(i => db.pack[i.id]).length;
+    h += `<div class="card soft"><b>${done}/${items.length}</b> <span class="muted">ชิ้น · รวมของตามฤดูที่คุณจะอยู่${db.depart ? '' : ' (ใส่วันเดินทางเพื่อคัดตามฤดู)'}</span><div class="prog" style="margin-top:6px"><i style="width:${items.length ? done/items.length*100 : 0}%"></i></div></div>`;
+    for (const g of Object.keys(PACK_G)) { const its = items.filter(i => i.g === g); if (!its.length) continue;
+      h += `<div class="card"><div class="ch"><h2>${PACK_G[g]}</h2></div>${its.map(i => { const on = !!db.pack[i.id]; return `<div class="li ${on ? 'done' : ''}"><button class="ck ${on ? 'on' : ''}" data-act="tPack" data-id="${esc(i.id)}">${on ? '✓' : ''}</button><div class="grow"><div class="t" style="font-weight:500">${esc(i.n)}</div>${i.season ? `<div class="x">${esc(i.season)}</div>` : ''}</div>${i.custom ? `<button class="btn sm ghost" data-act="rmPack" data-id="${esc(i.id)}">ลบ</button>` : ''}</div>`; }).join('')}</div>`; }
+    h += `<div class="row"><input id="packNew" placeholder="เพิ่มของเอง"><button class="btn pri" data-act="addPack">เพิ่ม</button></div>
+      <div class="src">ของละเอียดสำหรับจัดกระเป๋าใช้แอป TripBudget ได้ · เช็กของต้องห้ามด้านกักกันโรคในหน้า "กฎวีซ่า"</div>`;
+  }
+  return h;
+}
+
 /* ============ SHEETS ============ */
 function openSheet(html, onSubmit){
   S = {onSubmit}; const sh = $('#sheet'); sh.innerHTML = `<form id="sf">${html}</form>`; sh.hidden = false; $('#scrim').hidden = false; document.body.classList.add('lock');
@@ -1086,7 +1143,11 @@ const A = {
   delCls:() => { db.classes = db.classes.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
   addEv:() => sheetEv(null), editEv:el => sheetEv(el.dataset.id),
   delEv:() => { db.events = db.events.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
-  editSos:sheetSos, arrTab:() => { ui.planTab = 'after'; go('plan'); },
+  editSos:sheetSos,
+  knowTab:el => { ui.knowTab = el.dataset.v; render(); },
+  tPack:el => { const id = el.dataset.id; if (db.pack[id]) delete db.pack[id]; else db.pack[id] = true; saveRaw(); render(); },
+  addPack:() => { const v = $('#packNew').value.trim(); if (!v) return; db.packCustom.push({id:'p_' + uid(), n:v}); saveRaw(); render(); },
+  rmPack:el => { db.packCustom = db.packCustom.filter(x => x.id !== el.dataset.id); delete db.pack[el.dataset.id]; saveRaw(); render(); }, arrTab:() => { ui.planTab = 'after'; go('plan'); },
   goWork:(el, ev) => { if (ev) ev.preventDefault(); ui.lifeTab = 'work'; go('life'); },
   addShift:() => sheetShift(null), editShift:el => sheetShift(el.dataset.id), workSet:sheetWorkSet,
   delShift:() => { if (!confirm('ลบกะนี้?')) return; db.shifts = db.shifts.filter(x => x.id !== S.id); save(); closeSheet(); render(); },
@@ -1108,7 +1169,7 @@ document.addEventListener('click', ev => {
   const el = ev.target.closest('[data-act]');
   if (!ev.target.closest('#menu') && !ev.target.closest('[data-act=menu]')) $('#menu').hidden = true;
   if (!el || el.tagName === 'SELECT') return;
-  const f = A[el.dataset.act]; if (f) { if (el.tagName === 'BUTTON' && el.type !== 'submit') ev.preventDefault(); f(el, ev); }
+  const f = A[el.dataset.act]; if (f) { if ((el.tagName === 'BUTTON' && el.type !== 'submit') || (el.tagName === 'A' && el.getAttribute('href') === '#')) ev.preventDefault(); f(el, ev); }
 });
 document.addEventListener('change', ev => {
   if (ev.target.matches('[data-act=setupCountry]')) { const code = ev.target.value; const keep = {visa:db.visa, city:db.city};

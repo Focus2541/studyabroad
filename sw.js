@@ -1,6 +1,6 @@
 // StudyAbroad service worker — ทำให้แอปเปิดได้แม้ไม่มีเน็ต
 // แก้ index.html หรือ countries.js แล้วให้เปลี่ยนเลขเวอร์ชันนี้ ผู้ใช้จะได้เวอร์ชันใหม่ตอนเปิดแอปครั้งถัดไป
-const CACHE = 'studyabroad-v1.1.0';
+const CACHE = 'studyabroad-v1.2.0';
 const CORE = ['./', './index.html', './countries.js', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
