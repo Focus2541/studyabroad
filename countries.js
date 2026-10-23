@@ -253,3 +253,56 @@ const SOS_PHRASES = [
   ['ช่วยติดต่อสถานทูตไทยให้หน่อย','Please contact the Thai embassy for me.'],
   ['ฉันพูดภาษาอังกฤษได้ไม่ดี กรุณาพูดช้าๆ','My English is not good. Please speak slowly.']
 ];
+
+/* ===== งานพิเศษ: ค่าแรงขั้นต่ำ ภาษี และกติกาชั่วโมง (ข้อมูล ณ DATA_AS_OF) =====
+   rule: 'fortnight' = นับทุกช่วง 14 วันที่เริ่มวันจันทร์ · 'week' = ต่อสัปดาห์ (จันทร์–อาทิตย์) · 'none' = ไม่จำกัดชั่วโมง
+   limit[visa] = ชั่วโมงสูงสุดในช่วงนั้น (0 = ห้ามทำงาน) · breakFree = ช่วงปิดเทอมตามตารางโรงเรียนไม่จำกัด
+   employerMax[visa] = อยู่กับนายจ้างรายเดียวได้กี่เดือน · tax = ภาษีประมาณ (% ที่หักจากรายได้) ใช้ประเมินเท่านั้น */
+const WORK = {
+  AU:{
+    minWage:26.44, wageNote:'ค่าแรงขั้นต่ำแห่งชาติตั้งแต่ 1 ก.ค. 2026 (AUD 1,004.90/สัปดาห์) งานแคชวลได้บวกเพิ่ม 25%', casual:0.25,
+    rule:{student:'fortnight', whv:'none'}, limit:{student:48, whv:0}, breakFree:{student:true, whv:false}, employerMax:{whv:6},
+    tax:{student:15, whv:15}, taxNote:'Working Holiday Maker เสีย 15% ตั้งแต่ดอลลาร์แรก (ถึง AUD 45,000) · นักเรียนสถานะภาษีขึ้นกับการพำนัก ตรวจกับ ATO',
+    links:[['ค่าแรงขั้นต่ำ (Fair Work)','https://www.fairwork.gov.au/pay-and-wages/minimum-wages'],['ภาษี/TFN (ATO)','https://www.ato.gov.au']]
+  },
+  NZ:{
+    minWage:23.95, wageNote:'ค่าแรงขั้นต่ำผู้ใหญ่ตั้งแต่ 1 เม.ย. 2026', casual:0,
+    rule:{student:'week', whv:'none'}, limit:{student:25, whv:0}, breakFree:{student:false, whv:false}, employerMax:{whv:3},
+    tax:{student:12, whv:12}, taxNote:'ประมาณ 10.5% ช่วงรายได้แรก + ACC levy · ต้องมี IRD number ไม่งั้นถูกหัก 45%',
+    links:[['ค่าแรงขั้นต่ำ (Employment NZ)','https://www.employment.govt.nz/news-and-updates/minimum-wage-is-increasing-on-1-april-2026'],['ภาษี (IRD)','https://www.ird.govt.nz']]
+  },
+  CA:{
+    minWage:18.25, wageNote:'ค่าแรงขั้นต่ำต่างกันตามมณฑล', casual:0,
+    cityWage:{van:18.25, vic:18.25, tor:17.95, cal:15.00, mtl:16.60},
+    rule:{student:'week'}, limit:{student:0}, breakFree:{student:false}, employerMax:{},
+    tax:{student:15}, taxNote:'นักเรียนภาษา (ESL) ทำงานนอกโรงเรียนไม่ได้ — ใส่ชั่วโมงเฉพาะถ้า study permit ระบุสิทธิ์ทำงาน',
+    links:[['การทำงานนอกโรงเรียน (IRCC)','https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/work-off-campus.html']]
+  }
+};
+
+/* ===== หาห้องเช่า ===== */
+const TENANCY = {
+  AU:[['NSW Fair Trading (เช่าบ้าน/มัดจำ)','https://www.fairtrading.nsw.gov.au/housing-and-property/renting'],['Consumer Affairs Victoria','https://www.consumer.vic.gov.au/housing/renting']],
+  NZ:[['Tenancy Services','https://www.tenancy.govt.nz']],
+  CA:[['BC Residential Tenancies','https://www2.gov.bc.ca/gov/content/housing-tenancy/residential-tenancies'],['Ontario Landlord and Tenant Board','https://tribunalsontario.ca/ltb/']]
+};
+const ROOM_CHECK = [
+  ['see','ได้ดูห้องจริง (หรือวิดีโอคอลสด) ก่อนจ่ายเงิน'],
+  ['contract','มีสัญญาเช่าเป็นลายลักษณ์อักษร ระบุค่าเช่า ระยะเวลา เงื่อนไขย้ายออก'],
+  ['bond','มัดจำ (bond) ฝากกับหน่วยงานรัฐ และได้ใบเสร็จ/เลขอ้างอิง'],
+  ['bills','รู้ว่าค่าไฟ น้ำ เน็ต รวมในค่าเช่าหรือไม่'],
+  ['photo','ถ่ายรูป/วิดีโอสภาพห้องวันเข้าอยู่ ส่งให้เจ้าของเก็บเป็นหลักฐาน'],
+  ['transit','เดินทางไปโรงเรียน/ที่ทำงานสะดวก เช็กเวลาเดินทางจริงช่วงเช้า'],
+  ['safe','ล็อกประตู/หน้าต่างได้ มีเครื่องตรวจจับควัน ย่านปลอดภัยช่วงกลางคืน'],
+  ['heat','มีฮีตเตอร์/ฉนวนกันหนาว (สำคัญมากในฤดูหนาว)'],
+  ['mates','คุยกับคนที่อยู่ร่วมบ้านแล้ว กติกาบ้านรับได้'],
+  ['owner','ยืนยันได้ว่าผู้ให้เช่าเป็นเจ้าของ/ผู้เช่าหลักจริง (ขอดูบัตร/สัญญาเช่าหลัก)']
+];
+const SCAM_SIGNS = [
+  'ให้โอนมัดจำก่อนดูห้อง หรืออ้างว่า "อยู่ต่างประเทศ ส่งกุญแจทางไปรษณีย์"',
+  'ราคาถูกผิดปกติเมื่อเทียบกับห้องแถวเดียวกัน',
+  'เร่งให้ตัดสินใจทันที อ้างว่ามีคนรอเยอะ',
+  'ขอให้จ่ายผ่าน Western Union คริปโต บัตรของขวัญ หรือบัญชีส่วนตัวต่างประเทศ',
+  'ไม่ยอมทำสัญญา หรือไม่ยอมให้มัดจำผ่านหน่วยงานรัฐ',
+  'ขอเลขพาสปอร์ต/สำเนาเอกสารครบชุดก่อนได้ดูห้อง'
+];
